@@ -14,22 +14,12 @@ public class BookImporter {
         List<String> lineText = new ArrayList<>();
         try {
             lineText = Files.readAllLines(
-                    Paths.get("books_small.csv")
+                    Paths.get("books_smallest.csv")
             );
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
         return lineText;
-    }
-
-    public static void printLines(List<String> lineText) {
-
-        Iterator iterator = lineText.iterator();
-
-        while(iterator.hasNext()) {
-            String line = (String) iterator.next();
-            System.out.println(line);
-        }
     }
 
     public static List<Book> exportBooksToList(List<String> lineText) {
