@@ -9,11 +9,12 @@ import java.util.*;
 
 public class BookImporter {
 
+    private static List<Book> books;
     public static List<String> importBooksFromCSV() {
-        List<String> lineText = new ArrayList<String>();
+        List<String> lineText = new ArrayList<>();
         try {
             lineText = Files.readAllLines(
-                    Paths.get("books_smallest.csv")
+                    Paths.get("books_small.csv")
             );
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -39,7 +40,7 @@ public class BookImporter {
         int totalRatings, totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating;
         int totalThreeStarRating, totalFourStarRating, totalFiveStarRating;
 
-        List<Book> books = new ArrayList<>();
+        books = new ArrayList<>();
         Book book;
         for(String linesText : lineText) {
         if(linesText.startsWith("book_id")) {
@@ -47,7 +48,6 @@ public class BookImporter {
         }
             String[] splitupLineVals = linesText.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
-            System.out.println();
             bookID = Integer.parseInt(splitupLineVals[0]);
             goodreadsBookID = Integer.parseInt(splitupLineVals[1]);
             bestBookID = Integer.parseInt(splitupLineVals[2]);
@@ -55,11 +55,11 @@ public class BookImporter {
             totalNumberOfBooks = Integer.parseInt(splitupLineVals[4]);
             ISBN = splitupLineVals[5];
             ISBN13 =  new BigDecimal(splitupLineVals[6]).toPlainString();
-            authors = splitupLineVals[7];
+            authors = splitupLineVals[7].trim().replaceAll("\\s+", " ");
             originalPublicationYear = new BigDecimal(splitupLineVals[8]).shortValueExact();
-            originalTitle = splitupLineVals[9];
-            title = splitupLineVals[10];
-            languageCode = splitupLineVals[11];
+            originalTitle = splitupLineVals[9].trim().replaceAll("\\s+", " ");
+            title = splitupLineVals[10].trim().replaceAll("\\s+", " ");
+            languageCode = splitupLineVals[11].trim().replaceAll("\\s+", " ").toUpperCase();
             averageRating = Float.parseFloat(splitupLineVals[12]);
             totalRatings = Integer.parseInt(splitupLineVals[13]);
             totalWorkRatings = Integer.parseInt(splitupLineVals[14]);
@@ -80,7 +80,10 @@ public class BookImporter {
                 title = title.substring(1, title.length() - 1);
             }
 
-            book = new Book(bookID, goodreadsBookID, bestBookID, workID, totalNumberOfBooks, ISBN, ISBN13, authors, originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings, totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating, totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
+            book = new Book(bookID, goodreadsBookID, bestBookID, workID, totalNumberOfBooks, ISBN, ISBN13, authors,
+                    originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings,
+                    totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating,
+                    totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
             books.add(book);
         }
         return books;
@@ -100,7 +103,8 @@ public class BookImporter {
     }
 
     public static void main (String[] args) {
-        ArrayList<Book> books = (ArrayList<Book>) exportBooksToList(importBooksFromCSV());
+        books =  new ArrayList<>(exportBooksToList(importBooksFromCSV()));
+        // books = new LinkedList<>(exportBooksToList(importBooksFromCSV()));
         for(Book book : books) {
             System.out.println("Book ID: " + book.getBookID());
             System.out.println("Goodreads Book ID: " + book.getGoodreadsBookID());

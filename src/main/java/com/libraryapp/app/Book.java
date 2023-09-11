@@ -1,7 +1,5 @@
 package com.libraryapp.app;
 
-import java.util.Comparator;
-
 public class Book implements Comparable<Book> {
     private int bookID;
     private int goodreadsBookID;
