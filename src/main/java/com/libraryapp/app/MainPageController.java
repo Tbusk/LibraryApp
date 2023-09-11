@@ -37,7 +37,7 @@ public class MainPageController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        title.setCellValueFactory(new PropertyValueFactory<Book, String>("bookID"));
+        title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         author.setCellValueFactory(new PropertyValueFactory<Book, String>("authors"));
         averageRating.setCellValueFactory(new PropertyValueFactory<Book, Float>("averageRating"));
         originalPublicationYear.setCellValueFactory(new PropertyValueFactory<Book, Short>("originalPublicationYear"));

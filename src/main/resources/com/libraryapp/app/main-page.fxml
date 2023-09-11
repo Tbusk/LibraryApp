@@ -19,7 +19,7 @@
     </VBox>
     <TableView fx:id="booksTable">
         <columns>
-            <TableColumn fx:id="title" text="title" prefWidth="200">
+            <TableColumn fx:id="title" text="title" prefWidth="300">
             </TableColumn>
             <TableColumn fx:id="author" text="Author" prefWidth="200">
                 <cellValueFactory>
