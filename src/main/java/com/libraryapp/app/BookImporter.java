@@ -10,11 +10,11 @@ import java.util.*;
 public class BookImporter {
 
     private static List<Book> books;
-    public static List<String> importBooksFromCSV() {
+    public static List<String> importBooksFromCSV(String pathToFile) {
         List<String> lineText = new ArrayList<>();
         try {
             lineText = Files.readAllLines(
-                    Paths.get("books_smallest.csv")
+                    Paths.get(pathToFile)
             );
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -78,37 +78,4 @@ public class BookImporter {
         }
         return books;
     }
-
-    public static void main (String[] args) {
-        books =  new ArrayList<>(exportBooksToList(importBooksFromCSV()));
-        // books = new LinkedList<>(exportBooksToList(importBooksFromCSV()));
-        for(Book book : books) {
-            System.out.println("Book ID: " + book.getBookID());
-            System.out.println("Goodreads Book ID: " + book.getGoodreadsBookID());
-            System.out.println("Best Book ID: " + book.getBestBookID());
-            System.out.println("Work ID: " + book.getWorkID());
-            System.out.println("Book Count: " + book.getTotalNumberOfBooks());
-            System.out.println("ISBN: " + book.getISBN());
-            System.out.println("ISBN13: " + book.getISBN13());
-            System.out.println("Authors: " + book.getAuthors());
-            System.out.println("Original Publication Year: " + book.getOriginalPublicationYear());
-            System.out.println("Original Title: " + book.getOriginalTitle());
-            System.out.println("Title: " + book.getTitle());
-            System.out.println("Language Code: " + book.getLanguageCode());
-            System.out.println("Average Rating: " + book.getAverageRating());
-            System.out.println("Rating Count: " + book.getTotalRatings());
-            System.out.println("Work Ratings Count: " + book.getTotalWorkRatings());
-            System.out.println("Work Text Reviews Count: " + book.getTotalWorkTextReviews());
-            System.out.println("Total One Star Ratings: " + book.getTotalOneStarRating());
-            System.out.println("Total Two Star Ratings: " + book.getTotalTwoStarRating());
-            System.out.println("Total Three Star Ratings: " + book.getTotalThreeStarRating());
-            System.out.println("Total Four Star Ratings: " + book.getTotalFourStarRating());
-            System.out.println("Total Five Star Ratings: " + book.getTotalFiveStarRating());
-            System.out.println("Standard Image Size URL: " + book.getStandardSizedImageURL());
-            System.out.println("Small Image Size URL: " + book.getSmallSizedImageURL());
-            System.out.println();
-
-        }
-    }
-
 }
