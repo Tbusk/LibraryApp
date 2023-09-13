@@ -103,13 +103,21 @@ public class MainPageController implements Initializable {
             });
             pagination.setPageCount((int) Math.ceil((double) bookObservableList.size() / rowsPerPage));
 
+            pagination.setVisible(true);
             booksTable.setItems(filteredData);
+        } else {
+            if(bookObservableList != null) {bookObservableList.clear();
+            pagination.setVisible(false);
+
+            booksTable.refresh();}
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        if(bookObservableList == null){
+            pagination.setVisible(false);
+        }
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Downloads"));
     }
