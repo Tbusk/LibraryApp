@@ -22,7 +22,7 @@
 
             <TableColumn fx:id="standardSizedImage" text="Image" prefWidth="105"></TableColumn>
 
-            <TableColumn fx:id="title" text="Title" prefWidth="300"></TableColumn>
+            <TableColumn fx:id="title" text="Title" prefWidth="350"></TableColumn>
 
             <TableColumn fx:id="author" text="Author" prefWidth="200"></TableColumn>
 

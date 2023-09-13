@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
@@ -57,13 +58,15 @@ public class MainPageController implements Initializable {
                         setGraphic(null);
                     } else {
                         ImageView imageView = new ImageView(item);
-                        imageView.setFitHeight(100);
-                        imageView.setFitWidth(100);
+                        imageView.setFitHeight(146);
+                        imageView.setFitWidth(98);
                         setGraphic(imageView);
                     }
                 }
             };
         });
+        title.setCellFactory(param -> { return new BookTableCell(); });
+        author.setCellFactory(param -> { return new BookTableCell(); });
         booksTable.setItems(bookObservableList);
     }
 }
