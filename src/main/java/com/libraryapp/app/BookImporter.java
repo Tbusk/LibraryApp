@@ -44,9 +44,21 @@ public class BookImporter {
             workID = Integer.parseInt((splitupLineVals[3]));
             totalNumberOfBooks = Integer.parseInt(splitupLineVals[4]);
             ISBN = splitupLineVals[5];
-            ISBN13 =  new BigDecimal(splitupLineVals[6]).toPlainString();
+
+            if(splitupLineVals[6].length() > 0) {
+                ISBN13 =  new BigDecimal(splitupLineVals[6]).toPlainString();
+            } else {
+                ISBN13 = splitupLineVals[6];
+            }
+
             authors = splitupLineVals[7].trim().replaceAll("\\s+", " ");
-            originalPublicationYear = new BigDecimal(splitupLineVals[8]).shortValueExact();
+
+            if(splitupLineVals[8].length() > 0) {
+                originalPublicationYear = new BigDecimal(splitupLineVals[8]).shortValueExact();
+            } else {
+                originalPublicationYear = 0;
+            }
+
             originalTitle = splitupLineVals[9].trim().replaceAll("\\s+", " ");
             title = splitupLineVals[10].trim().replaceAll("\\s+", " ");
             languageCode = splitupLineVals[11].trim().replaceAll("\\s+", " ").toUpperCase();
