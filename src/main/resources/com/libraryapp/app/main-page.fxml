@@ -19,20 +19,19 @@
     </VBox>
     <TableView fx:id="booksTable">
         <columns>
-            <TableColumn fx:id="title" text="title" prefWidth="300">
-            </TableColumn>
-            <TableColumn fx:id="author" text="Author" prefWidth="200">
-                <cellValueFactory>
-                    <PropertyValueFactory property="author"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="averageRating" text="Average Rating" prefWidth="200">
-            </TableColumn>
-            <TableColumn fx:id="originalPublicationYear" text="Original Publication Year" prefWidth="200">
-            </TableColumn>
-            <TableColumn fx:id="ISBN13" text="ISBN13" prefWidth="200">
 
-            </TableColumn>
+            <TableColumn fx:id="standardSizedImage" text="Image" prefWidth="105"></TableColumn>
+
+            <TableColumn fx:id="title" text="Title" prefWidth="300"></TableColumn>
+
+            <TableColumn fx:id="author" text="Author" prefWidth="200"></TableColumn>
+
+            <TableColumn fx:id="averageRating" text="Average Rating" prefWidth="200"></TableColumn>
+
+            <TableColumn fx:id="originalPublicationYear" text="Original Publication Year" prefWidth="200"></TableColumn>
+
+            <TableColumn fx:id="ISBN13" text="ISBN13" prefWidth="200"></TableColumn>
+
         </columns>
 
     </TableView>

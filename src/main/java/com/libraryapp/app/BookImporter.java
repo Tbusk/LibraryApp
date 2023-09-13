@@ -79,19 +79,6 @@ public class BookImporter {
         return books;
     }
 
-    public void readFromLine(String lineText) {
-        String text = "";
-            for (int i = 0; i < lineText.length(); i++) {
-                if (lineText.charAt(i) == '"') {
-                    lineText.indexOf("\"", i);
-                } else if (lineText.charAt(i) == ',') {
-                    break;
-                }
-                text += lineText.charAt(i);
-            }
-
-    }
-
     public static void main (String[] args) {
         books =  new ArrayList<>(exportBooksToList(importBooksFromCSV()));
         // books = new LinkedList<>(exportBooksToList(importBooksFromCSV()));
