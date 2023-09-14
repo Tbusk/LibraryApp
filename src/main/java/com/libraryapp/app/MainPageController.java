@@ -52,6 +52,29 @@ public class MainPageController implements Initializable {
     private TableColumn<Book, String> standardSizedImage;
     @FXML
     private Button importFromFileButton;
+    @FXML
+    private Button moveAheadTenPagesButton;
+
+    @FXML
+    private Button moveBackTenPagesButton;
+
+    @FXML
+    private void moveBackTenPages() {
+        if ((pagination.getCurrentPageIndex() - 10) >= 0) {
+            pagination.setCurrentPageIndex(pagination.getCurrentPageIndex() - 10);
+        } else {
+            pagination.setCurrentPageIndex(0);
+        }
+    }
+
+    @FXML
+    private void moveAheadTenPages() {
+        if ((pagination.getCurrentPageIndex() + 10) <= pagination.getPageCount()) {
+            pagination.setCurrentPageIndex(pagination.getCurrentPageIndex() + 10);
+        } else {
+            pagination.setCurrentPageIndex(pagination.getPageCount());
+        }
+    }
 
 
     @FXML
@@ -102,24 +125,32 @@ public class MainPageController implements Initializable {
                 return booksTable;
             });
             pagination.setPageCount((int) Math.ceil((double) bookObservableList.size() / rowsPerPage));
-            
-            pagination.setVisible(true);
-            
-        } else {
-            if(bookObservableList != null) {bookObservableList.clear();
-            pagination.setVisible(false);
 
-            booksTable.refresh();}
+            pagination.setVisible(true);
+            moveAheadTenPagesButton.setVisible(true);
+            moveBackTenPagesButton.setVisible(true);
+
+        } else {
+            if (bookObservableList != null) {
+                bookObservableList.clear();
+                pagination.setVisible(false);
+                moveAheadTenPagesButton.setVisible(false);
+                moveBackTenPagesButton.setVisible(false);
+
+                booksTable.refresh();
+            }
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	
-        if(bookObservableList == null){
+
+        if (bookObservableList == null) {
             pagination.setVisible(false);
+            moveAheadTenPagesButton.setVisible(false);
+            moveBackTenPagesButton.setVisible(false);
         }
         fileChooser.getExtensionFilters().add(extensionFilter);
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Downloads"));
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
     }
 }

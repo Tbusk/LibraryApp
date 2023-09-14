@@ -8,10 +8,11 @@
     -fx-min-height: 600px;
     -fx-text-alignment: center;
 }
-#importFromFileButton {
+.button {
     -fx-font-size: 16px;
 }
 
 #pagination {
     -fx-font-size: 16px;
 }
+

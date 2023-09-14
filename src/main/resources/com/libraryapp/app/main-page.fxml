@@ -16,34 +16,37 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <VBox alignment="CENTER" style="-fx-padding: 20px">
-        <Label fx:id="headerText" text="Library Desktop App" />
+    <VBox alignment="CENTER">
+        <Label fx:id="headerText" text="Library Desktop App"/>
     </VBox>
 
-    <HBox alignment="CENTER">
+    <VBox>
+        <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 30px">
 
-        <Button fx:id="importFromFileButton" text="Import from CSV" onAction="#importFromFile"></Button>
+            <Button fx:id="moveBackTenPagesButton" text="Back 10" onAction="#moveBackTenPages"></Button>
+            <Button fx:id="importFromFileButton" text="Import from CSV" onAction="#importFromFile"></Button>
+            <Button fx:id="moveAheadTenPagesButton" text="Forward 10" onAction="#moveAheadTenPages"></Button>
 
+        </HBox>
+        <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
+            <columns>
 
-    </HBox>
-    <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
-        <columns>
+                <TableColumn fx:id="standardSizedImage" text="Image" prefWidth="105"></TableColumn>
 
-            <TableColumn fx:id="standardSizedImage" text="Image" prefWidth="105"></TableColumn>
+                <TableColumn fx:id="title" text="Title" prefWidth="350"></TableColumn>
 
-            <TableColumn fx:id="title" text="Title" prefWidth="350"></TableColumn>
+                <TableColumn fx:id="author" text="Author" prefWidth="200"></TableColumn>
 
-            <TableColumn fx:id="author" text="Author" prefWidth="200"></TableColumn>
+                <TableColumn fx:id="averageRating" text="Average Rating" prefWidth="200"></TableColumn>
 
-            <TableColumn fx:id="averageRating" text="Average Rating" prefWidth="200"></TableColumn>
+                <TableColumn fx:id="originalPublicationYear" text="Original Publication Year"
+                             prefWidth="200"></TableColumn>
 
-            <TableColumn fx:id="originalPublicationYear" text="Original Publication Year" prefWidth="200"></TableColumn>
+                <TableColumn fx:id="ISBN13" text="ISBN13" prefWidth="200"></TableColumn>
 
-            <TableColumn fx:id="ISBN13" text="ISBN13" prefWidth="200"></TableColumn>
+            </columns>
 
-        </columns>
-
-    </TableView>
-    <Pagination fx:id="pagination" VBox.vgrow="ALWAYS" ></Pagination>
-
+        </TableView>
+        <Pagination fx:id="pagination" VBox.vgrow="ALWAYS"></Pagination>
+    </VBox>
 </VBox>
