@@ -97,14 +97,14 @@ public class MainPageController implements Initializable {
 
             pagination.setPageFactory(pageIndex -> {
                 int fromIndex = pageIndex * rowsPerPage;
-                int toIndex = Math.min(fromIndex + rowsPerPage, bookObservableList.size());
+                int toIndex = Math.min(fromIndex + rowsPerPage, filteredData.size());
                 booksTable.setItems(FXCollections.observableArrayList(filteredData.subList(fromIndex, toIndex)));
                 return booksTable;
             });
             pagination.setPageCount((int) Math.ceil((double) bookObservableList.size() / rowsPerPage));
-
+            
             pagination.setVisible(true);
-            booksTable.setItems(filteredData);
+            
         } else {
             if(bookObservableList != null) {bookObservableList.clear();
             pagination.setVisible(false);
@@ -115,6 +115,7 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	
         if(bookObservableList == null){
             pagination.setVisible(false);
         }
