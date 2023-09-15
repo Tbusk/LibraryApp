@@ -11,7 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -21,23 +23,20 @@ import java.util.ResourceBundle;
 public class MainPageController implements Initializable {
 
     private FileChooser fileChooser = new FileChooser();
-    private int rowsPerPage = 5;
+    private int rowsPerPage = 10;
     FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
-
-
     private List books;
     private ObservableList<Book> bookObservableList;
+    private FilteredList<Book> filteredData;
+
+    private Stage stage;
 
     @FXML
     Pagination pagination = new Pagination();
-    private FilteredList<Book> filteredData;
-
     @FXML
     private Label headerText;
-
     @FXML
     private TableView<Book> booksTable;
-
     @FXML
     private TableColumn<Book, String> title;
     @FXML
@@ -49,12 +48,11 @@ public class MainPageController implements Initializable {
     @FXML
     private TableColumn<Book, String> ISBN13;
     @FXML
-    private TableColumn<Book, String> standardSizedImage;
+    private TableColumn<Book, String> smallSizedImage;
     @FXML
     private Button importFromFileButton;
     @FXML
     private Button moveAheadTenPagesButton;
-
     @FXML
     private Button moveBackTenPagesButton;
 
@@ -94,8 +92,8 @@ public class MainPageController implements Initializable {
             averageRating.setCellValueFactory(new PropertyValueFactory<Book, Float>("averageRating"));
             originalPublicationYear.setCellValueFactory(new PropertyValueFactory<Book, Short>("originalPublicationYear"));
             ISBN13.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN13"));
-            standardSizedImage.setCellValueFactory(new PropertyValueFactory<Book, String>("standardSizedImageURL"));
-            standardSizedImage.setCellFactory(column -> {
+            smallSizedImage.setCellValueFactory(new PropertyValueFactory<Book, String>("smallSizedImageURL"));
+            smallSizedImage.setCellFactory(column -> {
                 return new TableCell<Book, String>() {
                     @Override
                     protected void updateItem(String item, boolean empty) {
@@ -109,13 +107,6 @@ public class MainPageController implements Initializable {
                         }
                     }
                 };
-            });
-
-            title.setCellFactory(param -> {
-                return new BookTableCell();
-            });
-            author.setCellFactory(param -> {
-                return new BookTableCell();
             });
 
             pagination.setPageFactory(pageIndex -> {
@@ -140,6 +131,10 @@ public class MainPageController implements Initializable {
                 booksTable.refresh();
             }
         }
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @Override

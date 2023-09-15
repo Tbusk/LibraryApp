@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Pagination?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.libraryapp.app.MainPageController">
+      fx:controller="com.libraryapp.app.MainPageController" fx:id="mainVBox">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -31,7 +31,7 @@
         <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
             <columns>
 
-                <TableColumn fx:id="standardSizedImage" text="Image" prefWidth="105"></TableColumn>
+                <TableColumn fx:id="smallSizedImage" text="Cover" prefWidth="60"></TableColumn>
 
                 <TableColumn fx:id="title" text="Title" prefWidth="350"></TableColumn>
 
@@ -40,7 +40,7 @@
                 <TableColumn fx:id="averageRating" text="Average Rating" prefWidth="200"></TableColumn>
 
                 <TableColumn fx:id="originalPublicationYear" text="Original Publication Year"
-                             prefWidth="200"></TableColumn>
+                             prefWidth="260"></TableColumn>
 
                 <TableColumn fx:id="ISBN13" text="ISBN13" prefWidth="200"></TableColumn>
 

@@ -13,12 +13,19 @@ import java.io.IOException;
 public class MainPage extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("main-page.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-page.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setTitle("Library Management Application");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+        MainPageController mainPageController = loader.getController();
+        mainPageController.setStage(stage);
+
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
