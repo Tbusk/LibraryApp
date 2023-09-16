@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.libraryapp.app.TableColumnSelectionController">
+            <VBox alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+                <Label text="Columns" style="-fx-font-size: 20px"/>
+            </VBox>
+            <VBox style="-fx-padding: 20 20 20 20">
+                <ListView fx:id="checklist" style="-fx-font-size: 16px"/>
+            </VBox>
+</VBox>

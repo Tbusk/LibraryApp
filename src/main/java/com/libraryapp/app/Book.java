@@ -1,6 +1,6 @@
 package com.libraryapp.app;
 
-public class Book implements Comparable<Book> {
+public class Book {
     private int bookID;
     private int goodreadsBookID;
     private int bestBookID;
@@ -24,6 +24,14 @@ public class Book implements Comparable<Book> {
     private int totalFiveStarRating;
     private String standardSizedImageURL;
     private String smallSizedImageURL;
+
+    public Book(){
+        this.title = "N/A";
+        this.authors = "N/A";
+        this.ISBN13 = "00000";
+        this.originalPublicationYear = 2023;
+        this.smallSizedImageURL = "https://s.gr-assets.com/assets/nophoto/book/50x75-a91bf249278a81aabab721ef782c4a74.png";
+    }
 
     public Book(int bookID, int goodreadsBookID, int bestBookID, int workID, int totalNumberOfBooks, String ISBN, String ISBN13, String authors, short originalPublicationYear, String originalTitle, String title, String languageCode, float averageRating, int totalRatings, int totalWorkRatings, int totalWorkTextReviews, int totalOneStarRating, int totalTwoStarRating, int totalThreeStarRating, int totalFourStarRating, int totalFiveStarRating, String standardSizedImageURL, String smallSizedImageURL) {
         this.bookID = bookID;
@@ -55,192 +63,91 @@ public class Book implements Comparable<Book> {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
-    }
-
     public int getGoodreadsBookID() {
         return goodreadsBookID;
-    }
-
-    public void setGoodreadsBookID(int goodreadsBookID) {
-        this.goodreadsBookID = goodreadsBookID;
     }
 
     public int getBestBookID() {
         return bestBookID;
     }
 
-    public void setBestBookID(int bestBookID) {
-        this.bestBookID = bestBookID;
-    }
-
     public int getWorkID() {
         return workID;
-    }
-
-    public void setWorkID(int workID) {
-        this.workID = workID;
     }
 
     public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
     public String getISBN13() {
         return ISBN13;
-    }
-
-    public void setISBN13(String ISBN13) {
-        this.ISBN13 = ISBN13;
     }
 
     public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(String authors) {
-        this.authors = authors;
-    }
-
     public short getOriginalPublicationYear() {
         return originalPublicationYear;
-    }
-
-    public void setOriginalPublicationYear(short originalPublicationYear) {
-        this.originalPublicationYear = originalPublicationYear;
     }
 
     public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getLanguageCode() {
         return languageCode;
     }
 
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
-
     public float getAverageRating() {
         return averageRating;
-    }
-
-    public void setAverageRating(float averageRating) {
-        this.averageRating = averageRating;
     }
 
     public int getTotalNumberOfBooks() {
         return totalNumberOfBooks;
     }
 
-    public void setTotalNumberOfBooks(int totalNumberOfBooks) {
-        this.totalNumberOfBooks = totalNumberOfBooks;
-    }
-
     public int getTotalRatings() {
         return totalRatings;
-    }
-
-    public void setTotalRatings(int totalRatings) {
-        this.totalRatings = totalRatings;
     }
 
     public int getTotalWorkRatings() {
         return totalWorkRatings;
     }
 
-    public void setTotalWorkRatings(int totalWorkRatings) {
-        this.totalWorkRatings = totalWorkRatings;
-    }
-
     public int getTotalWorkTextReviews() {
         return totalWorkTextReviews;
-    }
-
-    public void setTotalWorkTextReviews(int totalWorkTextReviews) {
-        this.totalWorkTextReviews = totalWorkTextReviews;
     }
 
     public int getTotalOneStarRating() {
         return totalOneStarRating;
     }
 
-    public void setTotalOneStarRating(int totalOneStarRating) {
-        this.totalOneStarRating = totalOneStarRating;
-    }
-
     public int getTotalTwoStarRating() {
         return totalTwoStarRating;
-    }
-
-    public void setTotalTwoStarRating(int totalTwoStarRating) {
-        this.totalTwoStarRating = totalTwoStarRating;
     }
 
     public int getTotalThreeStarRating() {
         return totalThreeStarRating;
     }
 
-    public void setTotalThreeStarRating(int totalThreeStarRating) {
-        this.totalThreeStarRating = totalThreeStarRating;
-    }
-
     public int getTotalFourStarRating() {
         return totalFourStarRating;
-    }
-
-    public void setTotalFourStarRating(int totalFourStarRating) {
-        this.totalFourStarRating = totalFourStarRating;
     }
 
     public int getTotalFiveStarRating() {
         return totalFiveStarRating;
     }
 
-    public void setTotalFiveStarRating(int totalFiveStarRating) {
-        this.totalFiveStarRating = totalFiveStarRating;
-    }
-
     public String getStandardSizedImageURL() {
         return standardSizedImageURL;
     }
 
-    public void setStandardSizedImageURL(String standardSizedImageURL) {
-        this.standardSizedImageURL = standardSizedImageURL;
-    }
-
     public String getSmallSizedImageURL() {
         return smallSizedImageURL;
-    }
-
-    public void setSmallSizedImageURL(String smallSizedImageURL) {
-        this.smallSizedImageURL = smallSizedImageURL;
-    }
-
-    @Override
-    public int compareTo(Book otherBook) {
-        if (this.originalPublicationYear > otherBook.originalPublicationYear) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }

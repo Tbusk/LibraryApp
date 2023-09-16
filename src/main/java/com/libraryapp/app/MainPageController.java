@@ -2,132 +2,267 @@ package com.libraryapp.app;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
 
-    private FileChooser fileChooser = new FileChooser();
-    private int rowsPerPage = 10;
-    FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+    private final FileChooser fileChooser = new FileChooser();
     private List books;
-    private ObservableList<Book> bookObservableList;
-    private FilteredList<Book> filteredData;
-
-    private Stage stage;
     private Alert messagePopup = new Alert(Alert.AlertType.INFORMATION);
+    private final int ROWS_PER_PAGE = 10;
+    FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+    private ObservableList bookObservableList;
+    private int pageIndex = ROWS_PER_PAGE - 1;
+    private int toIndex = ROWS_PER_PAGE - 1;
+    private int fromIndex = 0;
 
-    @FXML
-    Pagination pagination = new Pagination();
-    @FXML
-    private Label headerText;
-    @FXML
-    private TableView<Book> booksTable;
-    @FXML
-    private TableColumn<Book, String> title;
-    @FXML
-    private TableColumn<Book, String> author;
-    @FXML
-    private TableColumn<Book, Float> averageRating;
-    @FXML
-    private TableColumn<Book, Short> originalPublicationYear;
-    @FXML
-    private TableColumn<Book, String> ISBN13;
-    @FXML
-    private TableColumn<Book, String> smallSizedImage;
-    @FXML
-    private Button importFromFileButton;
-    @FXML
-    private Button moveAheadTenPagesButton;
-    @FXML
-    private Button moveBackTenPagesButton;
+    @FXML private Label headerText;
+    @FXML private TableView<Book> booksTable;
+    @FXML private TableColumn<Book, String> title;
+    @FXML private TableColumn<Book, String> author;
+    @FXML private TableColumn<Book, Float> averageRating;
+    @FXML private TableColumn<Book, Short> originalPublicationYear;
+    @FXML private TableColumn<Book, String> ISBN13;
+    @FXML private TableColumn<Book, String> smallSizedImage;
+    // hidden columns by default
+    @FXML private TableColumn<Book, String> ISBN;
+    @FXML private TableColumn<Book, String> oldTitle;
+    @FXML private TableColumn<Book, Integer> bookID;
+    @FXML private TableColumn<Book, Integer> goodReadsBookID;
+    @FXML private TableColumn<Book, Integer> bestBookID;
+    @FXML private TableColumn<Book, Integer> workID;
+    @FXML private TableColumn<Book, String> languageCode;
+    @FXML private TableColumn<Book, Integer> totalNumberOfBooks;
+    @FXML private TableColumn<Book, Integer> totalRatings;
+    @FXML private TableColumn<Book, Integer> totalWorkRatings;
+    @FXML private TableColumn<Book, Integer> totalWorkTextReviews;
+    @FXML private TableColumn<Book, Integer> totalOneStarReviews;
+    @FXML private TableColumn<Book, Integer> totalTwoStarReviews;
+    @FXML private TableColumn<Book, Integer> totalThreeStarReviews;
+    @FXML private TableColumn<Book, Integer> totalFourStarReviews;
+    @FXML private TableColumn<Book, Integer> totalFiveStarReviews;
+
+    @FXML private Button importFromFileButton;
+    @FXML private Button nextPageButton;
+    @FXML private Button previousPageButton;
+    @FXML private Label currentPageNumberFXML;
+    @FXML private Label totalNumberOfPagesFXML;
+    @FXML private Button selectTableColumns;
 
 
+    /**
+     * Runs during initialization. If there is anything that needs to run during initialization, it'll go here.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        hideUnusedTableColumns();
+        // Adds a .csv filter to the file chooser and sets the initial directory of the file chooser
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
+    }
 
-    @FXML
-    private void moveBackTenPages() {
-        if ((pagination.getCurrentPageIndex() - 10) >= 0) {
-            pagination.setCurrentPageIndex(pagination.getCurrentPageIndex() - 10);
-        } else {
-            pagination.setCurrentPageIndex(0);
+    /**
+     * Opens window allowing columns to be shown or hidden based on the user's preferences.
+     */
+    @FXML private void openChecklistWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("table-column-selection.fxml"));
+            Parent root = loader.load();
+            TableColumnSelectionController tableColumnSelectionController = loader.getController();
+            tableColumnSelectionController.setMainPageController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Select Columns");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    @FXML
-    private void moveAheadTenPages() {
-        if ((pagination.getCurrentPageIndex() + 10) <= pagination.getPageCount()) {
-            pagination.setCurrentPageIndex(pagination.getCurrentPageIndex() + 10);
-        } else {
-            pagination.setCurrentPageIndex(pagination.getPageCount());
+    /**
+     * Display the next ten items on the list if available in the booksTable table
+     */
+    @FXML private void nextPage() {
+
+        System.out.println("CURRENT: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
+        fromIndex = pageIndex;
+        if(pageIndex == 0) {
+            toIndex = fromIndex + ROWS_PER_PAGE - 1;
         }
+        else if(fromIndex + ROWS_PER_PAGE < bookObservableList.size()) {
+            toIndex = fromIndex + ROWS_PER_PAGE;
+            fromIndex++;
+            booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, Math.min(toIndex + 1,bookObservableList.size()))));
+
+        } else if (fromIndex + ROWS_PER_PAGE == bookObservableList.size()) {
+            toIndex = fromIndex + ROWS_PER_PAGE;
+            fromIndex++;
+            booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, Math.min(toIndex + 1,bookObservableList.size()))));
+        }else if(fromIndex == bookObservableList.size() - 1) {
+            fromIndex = bookObservableList.size() - ROWS_PER_PAGE;
+            toIndex = bookObservableList.size() - 1;
+            booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, Math.min(toIndex + 1,bookObservableList.size()))));
+        }
+
+        // Setting page index
+        if(pageIndex == 0) {
+            pageIndex = fromIndex + ROWS_PER_PAGE - 1;
+        }
+        else if (bookObservableList.size() > pageIndex + ROWS_PER_PAGE) {
+            pageIndex += ROWS_PER_PAGE;
+        } else if (bookObservableList.size() == toIndex) {
+            pageIndex = toIndex;
+        }
+        System.out.println("AFTER: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
+
+        setCurrentPageNumber();
+        booksTable.refresh();
     }
 
+    /**
+     * Display the previous ten items on the list if available in the booksTable table
+     */
+    @FXML private void previousPage() {
+        System.out.println("CURRENT: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
+        if(pageIndex - ROWS_PER_PAGE > 0) {
+            pageIndex -= ROWS_PER_PAGE;
+            toIndex = pageIndex;
+            fromIndex = toIndex - ROWS_PER_PAGE + 1;
+        } else {
+            fromIndex = 0;
+            toIndex = ROWS_PER_PAGE - 1;
+            pageIndex = ROWS_PER_PAGE - 1;
+        }
+        // Setting items on the table to be between fromIndex and toIndex from the books list
+        booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, toIndex + 1)));
+        System.out.println("AFTER: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
+        setCurrentPageNumber();
+        booksTable.refresh();
+    }
 
-    @FXML
-    private void importFromFile(ActionEvent event) {
+    /**
+     *
+     */
+    @FXML private void importFromFile() {
         File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null && !(booksTable.getItems().equals(null))) {
+        if (selectedFile != null && booksTable.getItems() != null) {
 
+            // Books Importing into ADT List format.  Can be converted to LinkedList or ArrayList.
             books = BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath()));
             bookObservableList = FXCollections.observableArrayList(books);
-            filteredData = new FilteredList<>(bookObservableList);
 
+            // Loading table, setting default values, setting current page number and total page numbers
+            fromIndex = 0;
+            toIndex = ROWS_PER_PAGE - 1;
+            pageIndex = ROWS_PER_PAGE - 1;
             loadTable();
-            setupPagination(filteredData);
-            booksTable.refresh();
+            setCurrentPageNumber();
+            setTotalNumberOfPages();
 
+            // Popup box telling user data is imported successfully.
             messagePopup.setTitle("Data Imported Successfully");
             messagePopup.setContentText("File " + selectedFile.getName() + "'s data has been added.");
             messagePopup.showAndWait();
 
-
+            booksTable.refresh();
         } else {
+
+            // Popup box telling user data is not imported and the operation was canceled.
             messagePopup.setTitle("Data not Imported");
             messagePopup.setContentText("File selection operation canceled.");
             messagePopup.showAndWait();
         }
     }
 
-    public void loadTable() {
-        booksTable.maxHeightProperty().bind(booksTable.heightProperty());
+    /**
+     * Updates total page count in application
+     */
+    private void setTotalNumberOfPages() {
+        totalNumberOfPagesFXML.setText(String.valueOf(getTotalNumberOfPages()));
+    }
+
+    /**
+     * Updates current page number in application
+     */
+    private void setCurrentPageNumber() {
+        currentPageNumberFXML.setText(String.valueOf(getCurrentPageNumber()));
+    }
+
+    /**
+     * Gets total number of pages in application
+     */
+    private int getTotalNumberOfPages() {
+        return (int)Math.ceil((double) bookObservableList.size() / ROWS_PER_PAGE);
+    }
+
+    /**
+     * Gets current page number in application
+     */
+    private int getCurrentPageNumber() {
+        if(fromIndex == 0) {
+            return 1;
+        } else if(toIndex + 1 ==  bookObservableList.size() || toIndex == bookObservableList.size()){
+            return getTotalNumberOfPages();
+        } else {
+            return (int) Math.ceil(getTotalNumberOfPages() * (double) fromIndex / bookObservableList.size());
+        }
+    }
+
+    /**
+     * Sets up the table associated values.  The adding of the columns to the table is done with FXML.
+     */
+    private void loadTable() {
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("authors"));
         averageRating.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
         originalPublicationYear.setCellValueFactory(new PropertyValueFactory<>("originalPublicationYear"));
         ISBN13.setCellValueFactory(new PropertyValueFactory<>("ISBN13"));
         smallSizedImage.setCellValueFactory(new PropertyValueFactory<>("smallSizedImageURL"));
-        //convertImageURLToImage();
 
-        System.out.println("Table values set");
+        // Loads by default, but the following are hidden.
+        ISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+        oldTitle.setCellValueFactory(new PropertyValueFactory<>("originalTitle"));
+        bookID.setCellValueFactory(new PropertyValueFactory<>("bookID"));
+        goodReadsBookID.setCellValueFactory(new PropertyValueFactory<>("goodreadsBookID"));
+        bestBookID.setCellValueFactory(new PropertyValueFactory<>("bestBookID"));
+        workID.setCellValueFactory(new PropertyValueFactory<>("workID"));
+        languageCode.setCellValueFactory(new PropertyValueFactory<>("languageCode"));
+        totalNumberOfBooks.setCellValueFactory(new PropertyValueFactory<>("totalNumberOfBooks"));
+        totalRatings.setCellValueFactory(new PropertyValueFactory<>("totalRatings"));
+        totalWorkRatings.setCellValueFactory(new PropertyValueFactory<>("totalWorkRatings"));
+        totalWorkTextReviews.setCellValueFactory(new PropertyValueFactory<>("totalWorkTextReviews"));
+        totalOneStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalOneStarRating"));
+        totalTwoStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalTwoStarRating"));
+        totalThreeStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalThreeStarRating"));
+        totalFourStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFourStarRating"));
+        totalFiveStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFiveStarRating"));
+
+        booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, toIndex + 1)));
+        convertImageURLToImage();
+
+        System.out.println("AFTER: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
+
+        System.out.println("Table Loaded Successfully");
     }
 
-    public void setupPagination(FilteredList<Book> filteredData) {
-        filteredData.setPredicate(s -> filteredData.indexOf(s) < rowsPerPage);
-        pagination.setPageFactory(pageIndex -> {
-            int fromIndex = pageIndex * rowsPerPage;
-            int toIndex = Math.min(fromIndex + rowsPerPage, filteredData.size());
-            booksTable.setItems(FXCollections.observableArrayList(filteredData.subList(fromIndex, toIndex)));
-            return booksTable;
-        });
-        pagination.setPageCount((int) Math.ceil((double) filteredData.size() / rowsPerPage));
-        pagination.setVisible(true);
-        moveAheadTenPagesButton.setVisible(true);
-        moveBackTenPagesButton.setVisible(true);
-        System.out.println("Pagination Set up");
-    }
-
-    public void convertImageURLToImage() {
+    /**
+     * Converts the image urls to images in the table for the small images
+     */
+    private void convertImageURLToImage() {
         smallSizedImage.setCellFactory(column -> {
             return new TableCell<>() {
                 @Override
@@ -143,28 +278,111 @@ public class MainPageController implements Initializable {
                 }
             };
         });
-        System.out.println("Image Converted To URL.");
+        System.out.println("Converted URLs to Images.");
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    // Hides least important columns
+    private void hideUnusedTableColumns() {
+        ISBN.setVisible(false);
+        oldTitle.setVisible(false);
+        bookID.setVisible(false);
+        goodReadsBookID.setVisible(false);
+        bestBookID.setVisible(false);
+        workID.setVisible(false);
+        languageCode.setVisible(false);
+        totalNumberOfBooks.setVisible(false);
+        totalRatings.setVisible(false);
+        totalWorkRatings.setVisible(false);
+        totalWorkTextReviews.setVisible(false);
+        totalOneStarReviews.setVisible(false);
+        totalTwoStarReviews.setVisible(false);
+        totalThreeStarReviews.setVisible(false);
+        totalFourStarReviews.setVisible(false);
+        totalFiveStarReviews.setVisible(false);
+
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        booksTable.autosize();
-
-        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
-            System.out.println("Page changed from: " + oldIndex + " to " + newIndex + ".");
-        });
-
-        if (bookObservableList == null) {
-            System.out.println("observable list is null");
-            pagination.setVisible(false);
-            moveAheadTenPagesButton.setVisible(false);
-            moveBackTenPagesButton.setVisible(false);
-        }
-        fileChooser.getExtensionFilters().add(extensionFilter);
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
+    // Below Methods are for setting visibility  of components
+    protected void setSmallSizedImageColumnVisibility(boolean visible) {
+        smallSizedImage.setVisible(visible);
     }
+    protected void setOriginalPublicationYearColumnVisibility(boolean visible) {
+        originalPublicationYear.setVisible(visible);
+    }
+    protected void setAverageRatingColumnVisibility(boolean visible) {
+        averageRating.setVisible(visible);
+    }
+    protected void setAuthorColumnVisibility(boolean visible) {
+        author.setVisible(visible);
+    }
+    protected void setCurrentTitleColumnVisibility(boolean visible) {
+        title.setVisible(visible);
+    }
+    protected void setISBN13ColumnVisibility(boolean visible) {
+        ISBN13.setVisible(visible);
+    }
+    protected void setISBNColumnVisibility(boolean visible) {
+        ISBN.setVisible(visible);
+    }
+
+    protected void setOldTitleColumnVisibility(boolean visible) {
+        oldTitle.setVisible(visible);
+    }
+
+    protected void setBookIDColumnVisibility(boolean visible) {
+        bookID.setVisible(visible);
+    }
+
+    protected void setGoodReadsBookIDColumnVisibility(boolean visible) {
+        goodReadsBookID.setVisible(visible);
+    }
+
+    protected void setBestBookIDColumnVisibility(boolean visible) {
+        bestBookID.setVisible(visible);
+    }
+
+    protected void setWorkIDColumnVisibility(boolean visible) {
+        workID.setVisible(visible);
+    }
+
+    protected void setLanguageCodeColumnVisibility(boolean visible) {
+        languageCode.setVisible(visible);
+    }
+
+    protected void setBookTotalColumnVisibility(boolean visible) {
+        totalNumberOfBooks.setVisible(visible);
+    }
+
+    protected void setTotalRatingsColumnVisibility(boolean visible) {
+        totalRatings.setVisible(visible);
+    }
+
+    protected void setTotalWorkRatingsColumnVisibility(boolean visible) {
+        totalWorkRatings.setVisible(visible);
+    }
+
+    protected void setTotalWorkTextReviewsColumnVisibility(boolean visible) {
+        totalWorkTextReviews.setVisible(visible);
+    }
+
+    protected void setTotalOneStarReviewsColumnVisibility(boolean visible) {
+        totalOneStarReviews.setVisible(visible);
+    }
+
+    protected void setTotalTwoStarReviewsColumnVisibility(boolean visible) {
+        totalTwoStarReviews.setVisible(visible);
+    }
+
+    protected void setTotalThreeStarReviewsColumnVisibility(boolean visible) {
+        totalThreeStarReviews.setVisible(visible);
+    }
+
+    protected void setTotalFourStarReviewsColumnVisibility(boolean visible) {
+        totalFourStarReviews.setVisible(visible);
+    }
+
+    protected void setTotalFiveStarReviewsColumnVisibility(boolean visible) {
+        totalFiveStarReviews.setVisible(visible);
+    }
+
 }
