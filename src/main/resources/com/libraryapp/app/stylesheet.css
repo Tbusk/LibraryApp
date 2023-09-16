@@ -5,7 +5,7 @@
 
 #booksTable {
     -fx-font-size: 18px;
-    -fx-min-height: 600px
+    -fx-min-height: 500px;
 }
 .button {
     -fx-font-size: 16px;
@@ -20,4 +20,8 @@
     -fx-padding: 2px;
     -fx-text-alignment:justify;
     -fx-wrap-text: true;
+}
+
+#booksTableVBox {
+    -fx-min-height: 500px;
 }

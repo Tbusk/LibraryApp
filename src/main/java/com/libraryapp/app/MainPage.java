@@ -19,7 +19,6 @@ public class MainPage extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setTitle("Library Management Application");
-        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 

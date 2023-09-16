@@ -6,15 +6,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -30,6 +26,7 @@ public class MainPageController implements Initializable {
     private FilteredList<Book> filteredData;
 
     private Stage stage;
+    private Alert messagePopup = new Alert(Alert.AlertType.INFORMATION);
 
     @FXML
     Pagination pagination = new Pagination();
@@ -56,6 +53,8 @@ public class MainPageController implements Initializable {
     @FXML
     private Button moveBackTenPagesButton;
 
+
+
     @FXML
     private void moveBackTenPages() {
         if ((pagination.getCurrentPageIndex() - 10) >= 0) {
@@ -79,58 +78,72 @@ public class MainPageController implements Initializable {
     private void importFromFile(ActionEvent event) {
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null && !(booksTable.getItems().equals(null))) {
-            booksTable.refresh();
+
             books = BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath()));
             bookObservableList = FXCollections.observableArrayList(books);
             filteredData = new FilteredList<>(bookObservableList);
-            filteredData.setPredicate(s -> filteredData.indexOf(s) < rowsPerPage);
 
-            pagination.setPageCount((int) Math.ceil((double) bookObservableList.size() / rowsPerPage));
+            loadTable();
+            setupPagination(filteredData);
+            booksTable.refresh();
 
-            title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-            author.setCellValueFactory(new PropertyValueFactory<Book, String>("authors"));
-            averageRating.setCellValueFactory(new PropertyValueFactory<Book, Float>("averageRating"));
-            originalPublicationYear.setCellValueFactory(new PropertyValueFactory<Book, Short>("originalPublicationYear"));
-            ISBN13.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN13"));
-            smallSizedImage.setCellValueFactory(new PropertyValueFactory<Book, String>("smallSizedImageURL"));
-            smallSizedImage.setCellFactory(column -> {
-                return new TableCell<Book, String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            ImageView imageView = new ImageView(item);
-                            imageView.setPreserveRatio(true);
-                            setGraphic(imageView);
-                        }
-                    }
-                };
-            });
+            messagePopup.setTitle("Data Imported Successfully");
+            messagePopup.setContentText("File " + selectedFile.getName() + "'s data has been added.");
+            messagePopup.showAndWait();
 
-            pagination.setPageFactory(pageIndex -> {
-                int fromIndex = pageIndex * rowsPerPage;
-                int toIndex = Math.min(fromIndex + rowsPerPage, filteredData.size());
-                booksTable.setItems(FXCollections.observableArrayList(filteredData.subList(fromIndex, toIndex)));
-                return booksTable;
-            });
-            pagination.setPageCount((int) Math.ceil((double) bookObservableList.size() / rowsPerPage));
-
-            pagination.setVisible(true);
-            moveAheadTenPagesButton.setVisible(true);
-            moveBackTenPagesButton.setVisible(true);
 
         } else {
-            if (bookObservableList != null) {
-                bookObservableList.clear();
-                pagination.setVisible(false);
-                moveAheadTenPagesButton.setVisible(false);
-                moveBackTenPagesButton.setVisible(false);
-
-                booksTable.refresh();
-            }
+            messagePopup.setTitle("Data not Imported");
+            messagePopup.setContentText("File selection operation canceled.");
+            messagePopup.showAndWait();
         }
+    }
+
+    public void loadTable() {
+        booksTable.maxHeightProperty().bind(booksTable.heightProperty());
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        author.setCellValueFactory(new PropertyValueFactory<>("authors"));
+        averageRating.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
+        originalPublicationYear.setCellValueFactory(new PropertyValueFactory<>("originalPublicationYear"));
+        ISBN13.setCellValueFactory(new PropertyValueFactory<>("ISBN13"));
+        smallSizedImage.setCellValueFactory(new PropertyValueFactory<>("smallSizedImageURL"));
+        //convertImageURLToImage();
+
+        System.out.println("Table values set");
+    }
+
+    public void setupPagination(FilteredList<Book> filteredData) {
+        filteredData.setPredicate(s -> filteredData.indexOf(s) < rowsPerPage);
+        pagination.setPageFactory(pageIndex -> {
+            int fromIndex = pageIndex * rowsPerPage;
+            int toIndex = Math.min(fromIndex + rowsPerPage, filteredData.size());
+            booksTable.setItems(FXCollections.observableArrayList(filteredData.subList(fromIndex, toIndex)));
+            return booksTable;
+        });
+        pagination.setPageCount((int) Math.ceil((double) filteredData.size() / rowsPerPage));
+        pagination.setVisible(true);
+        moveAheadTenPagesButton.setVisible(true);
+        moveBackTenPagesButton.setVisible(true);
+        System.out.println("Pagination Set up");
+    }
+
+    public void convertImageURLToImage() {
+        smallSizedImage.setCellFactory(column -> {
+            return new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        ImageView imageView = new ImageView(item);
+                        imageView.setPreserveRatio(true);
+                        setGraphic(imageView);
+                    }
+                }
+            };
+        });
+        System.out.println("Image Converted To URL.");
     }
 
     public void setStage(Stage stage) {
@@ -139,8 +152,14 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        booksTable.autosize();
+
+        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
+            System.out.println("Page changed from: " + oldIndex + " to " + newIndex + ".");
+        });
 
         if (bookObservableList == null) {
+            System.out.println("observable list is null");
             pagination.setVisible(false);
             moveAheadTenPagesButton.setVisible(false);
             moveBackTenPagesButton.setVisible(false);
