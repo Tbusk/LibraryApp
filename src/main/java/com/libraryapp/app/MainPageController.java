@@ -62,6 +62,8 @@ public class MainPageController implements Initializable {
     @FXML private Label currentPageNumberFXML;
     @FXML private Label totalNumberOfPagesFXML;
     @FXML private Button selectTableColumns;
+    @FXML private Button search;
+    @FXML private ChoiceBox searchFilter;
 
 
     /**
@@ -73,6 +75,10 @@ public class MainPageController implements Initializable {
         // Adds a .csv filter to the file chooser and sets the initial directory of the file chooser
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
+    }
+
+    @FXML private void searchList() {
+        // Method to search list and return type
     }
 
     /**
