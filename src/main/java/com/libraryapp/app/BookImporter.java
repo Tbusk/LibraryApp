@@ -196,6 +196,16 @@ public class BookImporter {
     	        }
     	    }
     	}
-    }
+    
+	
+    //placed here for later implementation 
+	public void linearperformance () {
+		
+	}
+	public void binaryperformance() {
+		
+	}
+	
+	
 
-
+}
