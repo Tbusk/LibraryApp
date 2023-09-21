@@ -12,6 +12,8 @@ public class BookImporter {
     private static List<Book> books;
     public static List<String> importBooksFromCSV(String pathToFile) {
         List<String> lineText = new ArrayList<>();
+        //replace with linked list as well to implement later 
+        // List <String> = lineText = new LinkedList<>();
         try {
             lineText = Files.readAllLines(
                     Paths.get(pathToFile)
@@ -31,6 +33,8 @@ public class BookImporter {
         int totalThreeStarRating, totalFourStarRating, totalFiveStarRating;
 
         books = new ArrayList<>();
+        //replaced with linked list to later implement
+        // books = new LinkedList<>();
         Book book;
         for(String linesText : lineText) {
         if(linesText.startsWith("book_id")) {
@@ -90,4 +94,118 @@ public class BookImporter {
         }
         return books;
     }
+
+ // implement for the ArrayList 
+    //references are located in BookImporter 
+	class BinarySearch
+	{
+	    // Returns index of x if it is present in arr[],
+	    // else return -1
+	    int binarySearch(ArrayList<String> arr, int x)
+	    {
+	        int left = 0, right = arr.size() - 1;
+	       
+	        while (left <= right)
+	        {
+	            int mid = left + (right - left) / 2;
+	   
+	            // Check if x is present at mid
+	            //change these statements so they match with string arguments
+	            //if (arr.get(mid) == x)
+	                //return mid;
+	            
+	            // If x greater, ignore left half
+	            //change these statements so they match with string arguments
+	            //FIXME : CHANGE STATEMENTS SO THEY MATCH WITH STRING ARGUMENTS 
+	            //if (arr.get(mid) < x)
+	                //left = mid + 1;
+	   
+	            // If x is smaller, ignore right half
+	            //else
+	                right = mid - 1;
+	        }
+	   
+	        // if we reach here, then element was
+	        // not present
+	        return -1;
+	    }
+    public void searchBinary() {
+    	        BinarySearch ob = new BinarySearch();
+    	       
+    	        ArrayList<String> book = new ArrayList<String>();
+    	        //add statement when it comes to adding the cvs files to this array 
+    	       
+    	        //this element will change come searching for books 
+    	        int x = 10;
+    	       
+    	        // Printing elements of array list
+    	        System.out.println("The results of your search are: "+ book);
+    	       
+    	        int result = ob.binarySearch(book, x);
+    	       
+    	        if (result == -1)
+    	            System.out.println("The search query for your request is not present");
+    	       
+    	        else
+    	            System.out.println("The book, " + x + ", is found at "
+    	                               + "index " + result);
+    	    }
+    	}
+    
+    //implement for LinkedList 
+    public void searchLinear() {
+    	 {
+    	        // Initializing the Linked List
+    	        LinkedList<String> books = new LinkedList<>();
+    	 
+    	        // Adding elements to the Linked List
+    	     
+    	 
+    	        // Element to be searched
+    	        int element = 4;
+    	 
+    	        // Initializing the answer to the index -1
+    	        int ans = -1;
+    	 
+    	        // Traversing through the Linked List
+    	        for (int i = 0; i < books.size(); i++) {
+    	 
+    	            // Eztracting each element in
+    	            // the Linked List
+    	            String llElement = books.get(i);
+    	 
+    	            // Checking if the extracted element is equal to
+    	            // the element to be searched
+    	            //FIXME: NEEDS TO BE CHANGED TO INCORPERATE STRING ARGUMENTS 
+    	            //if (llElement == element) {
+    	 
+    	                // Assigning the index of the
+    	                // element to answer
+    	                //ans = i;
+    	               // break;
+    	            //}
+    	        }
+    	        // Checking if the element is present in the Linked
+    	        // List
+    	        if (ans == -1) {
+    	            System.out.println("Title not found");
+    	        }
+    	        else {
+    	            System.out.println(
+    	                "The requested title found in Linked List at " + ans);
+    	        }
+    	    }
+    	}
+    
+	
+    //placed here for later implementation 
+	public void linearperformance () {
+		
+	}
+	public void binaryperformance() {
+		
+	}
+	
+	
+
 }

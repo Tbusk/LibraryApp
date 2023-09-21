@@ -301,6 +301,11 @@ public class MainPageController implements Initializable {
         totalFiveStarReviews.setVisible(false);
 
     }
+    
+    protected void systemPerform() {
+    //placed here for later implementation 	
+    }
+    
 
     // Below Methods are for setting visibility  of components
     protected void setSmallSizedImageColumnVisibility(boolean visible) {
