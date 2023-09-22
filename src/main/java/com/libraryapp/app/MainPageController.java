@@ -69,6 +69,8 @@ public class MainPageController implements Initializable {
     @FXML private Button search;
     @FXML private ChoiceBox searchFilter;
     @FXML private TextField searchBox;
+    
+    @FXML private Label systemtimes;
 
 
     /**
@@ -97,7 +99,7 @@ public class MainPageController implements Initializable {
             System.out.println("Searched Text: " + searchBox.getText());
             System.out.println("Index: " + result);
             // get end time
-
+            systemtimes.setVisible(true);
             booksTable.getItems().clear();
             booksTable.getItems().add((Book) books.get(result));
         }
@@ -329,6 +331,8 @@ public class MainPageController implements Initializable {
         totalThreeStarReviews.setVisible(false);
         totalFourStarReviews.setVisible(false);
         totalFiveStarReviews.setVisible(false);
+        //added label at the bottom when it comes to system times 
+        systemtimes.setVisible(false);
 
     }
 
@@ -414,5 +418,6 @@ public class MainPageController implements Initializable {
     protected void setTotalFiveStarReviewsColumnVisibility(boolean visible) {
         totalFiveStarReviews.setVisible(visible);
     }
+
 
 }
