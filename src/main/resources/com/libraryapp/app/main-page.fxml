@@ -91,6 +91,8 @@
             <Label fx:id="currentPageNumberFXML" text="0"/>
             <Label text=" of "></Label>
             <Label fx:id="totalNumberOfPagesFXML" text="0"/>
+            <Label text="Time Executed: "/>
+            <Label fx:id="systemtimes" text= "0"/>
         </HBox>
     </VBox>
 </VBox>
