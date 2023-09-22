@@ -1,5 +1,7 @@
 package com.libraryapp.app;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,6 +32,7 @@ public class MainPageController implements Initializable {
     private int pageIndex = ROWS_PER_PAGE - 1;
     private int toIndex = ROWS_PER_PAGE - 1;
     private int fromIndex = 0;
+    private File selectedFile;
 
     @FXML private Label headerText;
     @FXML private TableView<Book> booksTable;
@@ -64,6 +68,7 @@ public class MainPageController implements Initializable {
     @FXML private Button selectTableColumns;
     @FXML private Button search;
     @FXML private ChoiceBox searchFilter;
+    @FXML private TextField searchBox;
 
 
     /**
@@ -79,7 +84,25 @@ public class MainPageController implements Initializable {
 
     @FXML private void searchList() {
         // Method to search list and return type
+        BookImporter bookImporter = new BookImporter();
+        LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+
+        if(searchBox.getText().equals("")) {
+            loadTable();
+        } else {
+            // get start time
+            int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
+            System.out.println("Searched Text: " + searchBox.getText());
+            System.out.println("Index: " + result);
+            // get end time
+
+            booksTable.getItems().clear();
+            booksTable.getItems().add((Book) books.get(result));
+        }
+
     }
+
 
     /**
      * Opens window allowing columns to be shown or hidden based on the user's preferences.
@@ -164,7 +187,7 @@ public class MainPageController implements Initializable {
      *
      */
     @FXML private void importFromFile() {
-        File selectedFile = fileChooser.showOpenDialog(null);
+        selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null && booksTable.getItems() != null) {
 
             // Books Importing into ADT List format.  Can be converted to LinkedList or ArrayList.

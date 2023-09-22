@@ -10,6 +10,7 @@ import java.util.*;
 public class BookImporter {
 
     private static List<Book> books;
+
     public static List<String> importBooksFromCSV(String pathToFile) {
         List<String> lineText = new ArrayList<>();
         try {
@@ -32,10 +33,10 @@ public class BookImporter {
 
         books = new ArrayList<>();
         Book book;
-        for(String linesText : lineText) {
-        if(linesText.startsWith("book_id")) {
-            continue;
-        }
+        for (String linesText : lineText) {
+            if (linesText.startsWith("book_id")) {
+                continue;
+            }
             String[] splitupLineVals = linesText.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
             bookID = Integer.parseInt(splitupLineVals[0]);
@@ -45,15 +46,15 @@ public class BookImporter {
             totalNumberOfBooks = Integer.parseInt(splitupLineVals[4]);
             ISBN = splitupLineVals[5];
 
-            if(splitupLineVals[6].length() > 0) {
-                ISBN13 =  new BigDecimal(splitupLineVals[6]).toPlainString();
+            if (splitupLineVals[6].length() > 0) {
+                ISBN13 = new BigDecimal(splitupLineVals[6]).toPlainString();
             } else {
                 ISBN13 = splitupLineVals[6];
             }
 
             authors = splitupLineVals[7].trim().replaceAll("\\s+", " ");
 
-            if(splitupLineVals[8].length() > 0) {
+            if (splitupLineVals[8].length() > 0) {
                 originalPublicationYear = new BigDecimal(splitupLineVals[8]).shortValueExact();
             } else {
                 originalPublicationYear = 0;
@@ -74,11 +75,11 @@ public class BookImporter {
             standardSizedImageURL = splitupLineVals[21];
             smallSizedImageURL = splitupLineVals[22];
 
-            if(authors.startsWith("\"")) {
+            if (authors.startsWith("\"")) {
                 authors = authors.substring(1, authors.length() - 1);
             }
 
-            if(title.startsWith("\"")) {
+            if (title.startsWith("\"")) {
                 title = title.substring(1, title.length() - 1);
             }
 
@@ -91,12 +92,10 @@ public class BookImporter {
         return books;
     }
 
-    int binarySearch(ArrayList<String> arr, int x)
-    {
+    int binarySearch(ArrayList<String> arr, int x) {
         int left = 0, right = arr.size() - 1;
 
-        while (left <= right)
-        {
+        while (left <= right) {
             int mid = left + (right - left) / 2;
 
             // Check if x is present at mid
@@ -120,47 +119,44 @@ public class BookImporter {
         return -1;
     }
 
-    public void searchLinear() {
-        {
+    public int searchLinear(LinkedList<Book> bookList, String textToLookFor, String type) {
             // Initializing the Linked List
-            LinkedList<String> books = new LinkedList<>();
 
             // Adding elements to the Linked List
 
 
             // Element to be searched
-            int element = 4;
 
             // Initializing the answer to the index -1
             int ans = -1;
-
+            String llElement = "";
             // Traversing through the Linked List
-            for (int i = 0; i < books.size(); i++) {
+            for (int i = 0; i < bookList.size(); i++) {
 
                 // Eztracting each element in
                 // the Linked List
-                String llElement = books.get(i);
+                switch (type) {
+                    case "ISBN13" -> llElement = bookList.get(i).getISBN13();
+                    case "Book ID" -> llElement = String.valueOf(bookList.get(i).getBookID());
+                }
 
-                // Checking if the extracted element is equal to
-                // the element to be searched
                 //FIXME: NEEDS TO BE CHANGED TO INCORPERATE STRING ARGUMENTS
-                //if (llElement == element) {
+                if (llElement.equals(textToLookFor)) {
+                    ans = i;
+                    break;
 
-                // Assigning the index of the
-                // element to answer
-                //ans = i;
-                // break;
-                //}
+                }
+                // Checking if the element is present in the Linked
+                // List
+
             }
-            // Checking if the element is present in the Linked
-            // List
-            if (ans == -1) {
-                System.out.println("Title not found");
-            }
-            else {
-                System.out.println(
-                        "The requested title found in Linked List at " + ans);
-            }
+        if (ans == -1) {
+            System.out.println("Title not found");
+            return ans;
+        } else {
+            System.out.println(
+                    "The requested title found in Linked List at " + ans);
+            return ans;
         }
     }
 }
