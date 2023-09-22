@@ -86,7 +86,8 @@ public class MainPageController implements Initializable {
         // Method to search list and return type
         BookImporter bookImporter = new BookImporter();
         LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
-
+        // arraylist version
+        //ArrayList<Book> bookLinkedList = new ArrayList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         if(searchBox.getText().equals("")) {
             loadTable();
         } else {
