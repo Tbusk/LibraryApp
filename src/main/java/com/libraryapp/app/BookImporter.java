@@ -9,7 +9,8 @@ import java.util.*;
 
 public class BookImporter {
 
-    private static List<Book> books;
+    
+	private static List<Book> books;
 
     public static List<String> importBooksFromCSV(String pathToFile) {
         List<String> lineText = new ArrayList<>();
@@ -82,12 +83,14 @@ public class BookImporter {
             if (title.startsWith("\"")) {
                 title = title.substring(1, title.length() - 1);
             }
-
+            
             book = new Book(bookID, goodreadsBookID, bestBookID, workID, totalNumberOfBooks, ISBN, ISBN13, authors,
                     originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings,
                     totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating,
                     totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
             books.add(book);
+            
+            
         }
         return books;
     }
@@ -176,4 +179,5 @@ public class BookImporter {
             return ans;
         }
     }
+
 }

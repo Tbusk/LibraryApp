@@ -201,7 +201,8 @@ public class MainPageController implements Initializable {
     @FXML private void importFromFile() {
         selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null && booksTable.getItems() != null) {
-
+        	//add system time
+        	start();
             // Books Importing into ADT List format.  Can be converted to LinkedList or ArrayList.
             books = BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath()));
             bookObservableList = FXCollections.observableArrayList(books);
@@ -220,6 +221,10 @@ public class MainPageController implements Initializable {
             messagePopup.showAndWait();
 
             booksTable.refresh();
+            //print system time
+            end();
+            long importtime = getTotalTime();
+            System.out.println("Total time to import: " + importtime + " s");
         } else {
 
             // Popup box telling user data is not imported and the operation was canceled.
