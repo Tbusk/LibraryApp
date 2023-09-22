@@ -35,6 +35,7 @@ public class MainPageController implements Initializable {
     private int fromIndex = 0;
     private long importtime = 0;
     private File selectedFile;
+    int timeTaken = 0;
     
     
     
@@ -67,6 +68,9 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn<Book, Integer> totalThreeStarReviews;
     @FXML private TableColumn<Book, Integer> totalFourStarReviews;
     @FXML private TableColumn<Book, Integer> totalFiveStarReviews;
+    @FXML private ToggleGroup listToggler;
+    @FXML RadioButton useArrayList;
+    @FXML RadioButton useLinkedList;
 
     @FXML private Button importFromFileButton;
     @FXML private Button nextPageButton;
@@ -91,32 +95,42 @@ public class MainPageController implements Initializable {
         // Adds a .csv filter to the file chooser and sets the initial directory of the file chooser
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
+        useArrayList.setSelected(true); // sets default selection for lists
     }
 
     @FXML private void searchList() {
         // Method to search list and return type
     	
         BookImporter bookImporter = new BookImporter();
-        LinkedList<Book> bookLinkedList = new LinkedList<>(bookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
-        // arraylist version
-        //ArrayList<Book> bookLinkedList = new ArrayList<>(bookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
-        if(searchBox.getText().equals("")) {
-            loadTable();
-        } else {
-            start();
-            //int result = bookImporter.searchBinary(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
-            int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
-            end();
-            System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
-            System.out.println("Searched Text: " + searchBox.getText());
-            System.out.println("Index: " + result);
 
-            long totalTime = getTotalTime();
-            systemtimes.setVisible(true);
-            systemtimes.setText(totalTime + "ms"); // change the text into time 
-            booksTable.getItems().clear();
-            booksTable.getItems().add((Book) books.get(result));
+        if(searchBox.getText().equals("")) {
+
+            loadTable();
+
+        } else if (useArrayList.isSelected()){
+
+            ArrayList<Book> bookArrayList = new ArrayList<>(books);
+            start();
+            timeTaken = bookImporter.searchBinary(bookArrayList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            end();
+
+        } else if (useLinkedList.isSelected()) {
+
+            LinkedList<Book> bookLinkedList = new LinkedList<>(books);
+            start();
+            timeTaken = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            end();
         }
+
+        System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
+        System.out.println("Searched Text: " + searchBox.getText());
+        System.out.println("Index: " + timeTaken);
+
+        long totalTime = getTotalTime();
+        systemtimes.setVisible(true);
+        systemtimes.setText(totalTime + "ms"); // change the text into time
+        booksTable.getItems().clear();
+        booksTable.getItems().add((Book) books.get(timeTaken));
 
     }
 
