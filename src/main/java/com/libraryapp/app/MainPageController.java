@@ -97,18 +97,20 @@ public class MainPageController implements Initializable {
         // Method to search list and return type
     	
         BookImporter bookImporter = new BookImporter();
-        //LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+        LinkedList<Book> bookLinkedList = new LinkedList<>(bookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         // arraylist version
-        ArrayList<Book> bookLinkedList = new ArrayList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+        //ArrayList<Book> bookLinkedList = new ArrayList<>(bookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         if(searchBox.getText().equals("")) {
             loadTable();
         } else {
             start();
-            int result = bookImporter.searchBinary(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            //int result = bookImporter.searchBinary(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            end();
             System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
             System.out.println("Searched Text: " + searchBox.getText());
             System.out.println("Index: " + result);
-            end();
+
             long totalTime = getTotalTime();
             systemtimes.setVisible(true);
             systemtimes.setText(totalTime + "ms"); // change the text into time 
