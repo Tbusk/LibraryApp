@@ -92,32 +92,44 @@ public class BookImporter {
         return books;
     }
 
-    int binarySearch(ArrayList<String> arr, int x) {
-        int left = 0, right = arr.size() - 1;
+    public int searchBinary(ArrayList<Book> bookList, String textToLookFor, String type) {
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+        // Initializing the answer to the index -1
+        int ans = -1;
+        String llElement = "";
+        // Traversing through the Linked List
+        for (int i = 0; i < bookList.size(); i++) {
 
-            // Check if x is present at mid
-            //change these statements so they match with string arguments
-            //if (arr.get(mid) == x)
-            //return mid;
+            // Eztracting each element in
+            // the Array List
+            switch (type) {
+                case "ISBN13" -> llElement = bookList.get(i).getISBN13();
+                case "Book ID" -> llElement = String.valueOf(bookList.get(i).getBookID());
+                case "Title" -> llElement = bookList.get(i).getTitle();
+                case "Author" -> llElement = bookList.get(i).getAuthors();
+                case "ISBN" -> llElement = bookList.get(i).getISBN();
+                case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
+                case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
+            }
 
-            // If x greater, ignore left half
-            //change these statements so they match with string arguments
-            //FIXME : CHANGE STATEMENTS SO THEY MATCH WITH STRING ARGUMENTS
-            //if (arr.get(mid) < x)
-            //left = mid + 1;
+            if (llElement.equals(textToLookFor)) {
+                ans = i;
+                break;
 
-            // If x is smaller, ignore right half
-            //else
-            right = mid - 1;
+            }
+            // Checking if the element is present in the Linked
+            // List
+
         }
-
-        // if we reach here, then element was
-        // not present
-        return -1;
+    if (ans == -1) {
+        System.out.println("Title not found");
+        return ans;
+    } else {
+        System.out.println(
+                "The requested title found in Linked List at " + ans);
+        return ans;
     }
+}
 
     public int searchLinear(LinkedList<Book> bookList, String textToLookFor, String type) {
             // Initializing the Linked List

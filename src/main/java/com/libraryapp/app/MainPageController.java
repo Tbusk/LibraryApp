@@ -33,7 +33,13 @@ public class MainPageController implements Initializable {
     private int toIndex = ROWS_PER_PAGE - 1;
     private int fromIndex = 0;
     private File selectedFile;
-
+    
+    
+    
+    //variables for system performance 
+    private long startTime = 0;
+    private long endTime   = 0;
+    
     @FXML private Label headerText;
     @FXML private TableView<Book> booksTable;
     @FXML private TableColumn<Book, String> title;
@@ -100,6 +106,7 @@ public class MainPageController implements Initializable {
             System.out.println("Index: " + result);
             // get end time
             systemtimes.setVisible(true);
+            systemtimes.setText(" " + "s"); // change the text into time 
             booksTable.getItems().clear();
             booksTable.getItems().add((Book) books.get(result));
         }
@@ -417,6 +424,27 @@ public class MainPageController implements Initializable {
 
     protected void setTotalFiveStarReviewsColumnVisibility(boolean visible) {
         totalFiveStarReviews.setVisible(visible);
+    }
+
+    //variables for system testing
+    protected void start(){
+      this.startTime = System.currentTimeMillis();
+    }
+
+    protected void end() {
+      this.endTime   = System.currentTimeMillis();  
+    }
+
+    protected long getStartTime() {
+      return this.startTime;
+    }
+
+    protected long getEndTime() {
+      return this.endTime;
+    }
+
+    protected long getTotalTime() {
+      return this.endTime - this.startTime;
     }
 
 
