@@ -92,6 +92,7 @@ public class MainPageController implements Initializable {
 
     @FXML private void searchList() {
         // Method to search list and return type
+    	
         BookImporter bookImporter = new BookImporter();
         LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         // arraylist version
@@ -99,14 +100,15 @@ public class MainPageController implements Initializable {
         if(searchBox.getText().equals("")) {
             loadTable();
         } else {
-            // get start time
+            start();
             int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
             System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
             System.out.println("Searched Text: " + searchBox.getText());
             System.out.println("Index: " + result);
-            // get end time
+            end();
+            long totalTime = getTotalTime();
             systemtimes.setVisible(true);
-            systemtimes.setText(" " + "s"); // change the text into time 
+            systemtimes.setText(totalTime + "s"); // change the text into time 
             booksTable.getItems().clear();
             booksTable.getItems().add((Book) books.get(result));
         }
