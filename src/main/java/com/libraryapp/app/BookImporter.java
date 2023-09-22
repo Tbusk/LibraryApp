@@ -138,6 +138,11 @@ public class BookImporter {
                 switch (type) {
                     case "ISBN13" -> llElement = bookList.get(i).getISBN13();
                     case "Book ID" -> llElement = String.valueOf(bookList.get(i).getBookID());
+                    case "Title" -> llElement = bookList.get(i).getTitle();
+                    case "Author" -> llElement = bookList.get(i).getAuthors();
+                    case "ISBN" -> llElement = bookList.get(i).getISBN();
+                    case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
+                    case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
                 }
 
                 //FIXME: NEEDS TO BE CHANGED TO INCORPERATE STRING ARGUMENTS
