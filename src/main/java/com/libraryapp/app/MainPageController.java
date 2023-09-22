@@ -32,6 +32,7 @@ public class MainPageController implements Initializable {
     private int pageIndex = ROWS_PER_PAGE - 1;
     private int toIndex = ROWS_PER_PAGE - 1;
     private int fromIndex = 0;
+    private long importtime = 0;
     private File selectedFile;
     
     
@@ -77,6 +78,7 @@ public class MainPageController implements Initializable {
     @FXML private TextField searchBox;
     
     @FXML private Label systemtimes;
+    @FXML private Button performance;
 
 
     /**
@@ -108,7 +110,7 @@ public class MainPageController implements Initializable {
             end();
             long totalTime = getTotalTime();
             systemtimes.setVisible(true);
-            systemtimes.setText(totalTime + "s"); // change the text into time 
+            systemtimes.setText(totalTime + "ms"); // change the text into time 
             booksTable.getItems().clear();
             booksTable.getItems().add((Book) books.get(result));
         }
@@ -223,8 +225,8 @@ public class MainPageController implements Initializable {
             booksTable.refresh();
             //print system time
             end();
-            long importtime = getTotalTime();
-            System.out.println("Total time to import: " + importtime + " s");
+            importtime = getTotalTime();
+            System.out.println("Total time to import: " + importtime + " ms");
         } else {
 
             // Popup box telling user data is not imported and the operation was canceled.
@@ -232,6 +234,12 @@ public class MainPageController implements Initializable {
             messagePopup.setContentText("File selection operation canceled.");
             messagePopup.showAndWait();
         }
+    }
+    
+    @FXML private void importPerform() {
+    	messagePopup.setTitle("System Performance");
+        messagePopup.setContentText("Time Executed: " + importtime + " ms");
+        messagePopup.showAndWait();
     }
 
     /**
