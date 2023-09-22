@@ -7,9 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.scene.control.Alert;
+
 public class BookImporter {
 
-    
+	private Alert messagePopup = new Alert(Alert.AlertType.INFORMATION);
 	private static List<Book> books;
 
     public static List<String> importBooksFromCSV(String pathToFile) {
@@ -125,10 +127,14 @@ public class BookImporter {
 
         }
     if (ans == -1) {
-        System.out.println("Title not found");
+    	messagePopup.setTitle("Requested info not found.");
+        messagePopup.setContentText("Requested info not found.");
+        messagePopup.showAndWait();
         return ans;
     } else {
-        System.out.println(
+        
+    	//message pop-out that counts the number of result
+    	System.out.println(
                 "The requested title found in Linked List at " + ans);
         return ans;
     }

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -96,14 +97,14 @@ public class MainPageController implements Initializable {
         // Method to search list and return type
     	
         BookImporter bookImporter = new BookImporter();
-        LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+        //LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         // arraylist version
-        //ArrayList<Book> bookLinkedList = new ArrayList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+        ArrayList<Book> bookLinkedList = new ArrayList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
         if(searchBox.getText().equals("")) {
             loadTable();
         } else {
             start();
-            int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            int result = bookImporter.searchBinary(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
             System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
             System.out.println("Searched Text: " + searchBox.getText());
             System.out.println("Index: " + result);
