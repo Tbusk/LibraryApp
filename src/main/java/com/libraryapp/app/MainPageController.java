@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,7 +33,9 @@ public class MainPageController implements Initializable {
     private int pageIndex = ROWS_PER_PAGE - 1;
     private int toIndex = ROWS_PER_PAGE - 1;
     private int fromIndex = 0;
+    private long importtime = 0;
     private File selectedFile;
+    int timeTaken = 0;
     
     
     
@@ -65,6 +68,9 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn<Book, Integer> totalThreeStarReviews;
     @FXML private TableColumn<Book, Integer> totalFourStarReviews;
     @FXML private TableColumn<Book, Integer> totalFiveStarReviews;
+    @FXML private ToggleGroup listToggler;
+    @FXML RadioButton useArrayList;
+    @FXML RadioButton useLinkedList;
 
     @FXML private Button importFromFileButton;
     @FXML private Button nextPageButton;
@@ -77,6 +83,7 @@ public class MainPageController implements Initializable {
     @FXML private TextField searchBox;
     
     @FXML private Label systemtimes;
+    @FXML private Button performance;
 
 
     /**
@@ -88,30 +95,42 @@ public class MainPageController implements Initializable {
         // Adds a .csv filter to the file chooser and sets the initial directory of the file chooser
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
+        useArrayList.setSelected(true); // sets default selection for lists
     }
 
     @FXML private void searchList() {
         // Method to search list and return type
     	
         BookImporter bookImporter = new BookImporter();
-        LinkedList<Book> bookLinkedList = new LinkedList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
-        // arraylist version
-        //ArrayList<Book> bookLinkedList = new ArrayList<>(BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath())));
+
         if(searchBox.getText().equals("")) {
+
             loadTable();
-        } else {
+
+        } else if (useArrayList.isSelected()){
+
+            ArrayList<Book> bookArrayList = new ArrayList<>(books);
             start();
-            int result = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
-            System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
-            System.out.println("Searched Text: " + searchBox.getText());
-            System.out.println("Index: " + result);
+            timeTaken = bookImporter.searchBinary(bookArrayList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
             end();
-            long totalTime = getTotalTime();
-            systemtimes.setVisible(true);
-            systemtimes.setText(totalTime + "s"); // change the text into time 
-            booksTable.getItems().clear();
-            booksTable.getItems().add((Book) books.get(result));
+
+        } else if (useLinkedList.isSelected()) {
+
+            LinkedList<Book> bookLinkedList = new LinkedList<>(books);
+            start();
+            timeTaken = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
+            end();
         }
+
+        System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
+        System.out.println("Searched Text: " + searchBox.getText());
+        System.out.println("Index: " + timeTaken);
+
+        long totalTime = getTotalTime();
+        systemtimes.setVisible(true);
+        systemtimes.setText(totalTime + "ms"); // change the text into time
+        booksTable.getItems().clear();
+        booksTable.getItems().add((Book) books.get(timeTaken));
 
     }
 
@@ -201,7 +220,8 @@ public class MainPageController implements Initializable {
     @FXML private void importFromFile() {
         selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null && booksTable.getItems() != null) {
-
+        	//add system time
+        	start();
             // Books Importing into ADT List format.  Can be converted to LinkedList or ArrayList.
             books = BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath()));
             bookObservableList = FXCollections.observableArrayList(books);
@@ -220,6 +240,10 @@ public class MainPageController implements Initializable {
             messagePopup.showAndWait();
 
             booksTable.refresh();
+            //print system time
+            end();
+            importtime = getTotalTime();
+            System.out.println("Total time to import: " + importtime + " ms");
         } else {
 
             // Popup box telling user data is not imported and the operation was canceled.
@@ -227,6 +251,12 @@ public class MainPageController implements Initializable {
             messagePopup.setContentText("File selection operation canceled.");
             messagePopup.showAndWait();
         }
+    }
+    
+    @FXML private void importPerform() {
+    	messagePopup.setTitle("System Performance");
+        messagePopup.setContentText("Time Executed: " + importtime + " ms");
+        messagePopup.showAndWait();
     }
 
     /**

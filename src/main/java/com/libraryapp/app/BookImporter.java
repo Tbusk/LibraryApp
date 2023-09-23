@@ -7,9 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.scene.control.Alert;
+
 public class BookImporter {
 
-    private static List<Book> books;
+	private Alert messagePopup = new Alert(Alert.AlertType.INFORMATION);
+	private static List<Book> books;
 
     public static List<String> importBooksFromCSV(String pathToFile) {
         List<String> lineText = new ArrayList<>();
@@ -82,12 +85,14 @@ public class BookImporter {
             if (title.startsWith("\"")) {
                 title = title.substring(1, title.length() - 1);
             }
-
+            
             book = new Book(bookID, goodreadsBookID, bestBookID, workID, totalNumberOfBooks, ISBN, ISBN13, authors,
                     originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings,
                     totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating,
                     totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
             books.add(book);
+            
+            
         }
         return books;
     }
@@ -122,10 +127,14 @@ public class BookImporter {
 
         }
     if (ans == -1) {
-        System.out.println("Title not found");
+    	messagePopup.setTitle("Requested info not found.");
+        messagePopup.setContentText("Requested info not found.");
+        messagePopup.showAndWait();
         return ans;
     } else {
-        System.out.println(
+        
+    	//message pop-out that counts the number of result
+    	System.out.println(
                 "The requested title found in Linked List at " + ans);
         return ans;
     }
@@ -176,4 +185,5 @@ public class BookImporter {
             return ans;
         }
     }
+
 }
