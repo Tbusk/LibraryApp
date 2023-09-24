@@ -94,26 +94,24 @@
         <Button fx:id="performance" text="Performance" onAction="#importPerform"/>
 
     </HBox>
-        <HBox alignment="CENTER" style="-fx-padding: 10 0 10 0; -fx-font-size: 16px;">
+        <HBox alignment="CENTER" style="-fx-padding: 5 0 5 0; -fx-font-size: 16px;">
             <Label text="Pages: "/>
             <Label fx:id="currentPageNumberFXML" text="0"/>
             <Label text=" of "></Label>
             <Label fx:id="totalNumberOfPagesFXML" text="0"/>
             
         </HBox>
-        <HBox alignment="CENTER" style="-fx-padding: 10 0 10 0; -fx-font-size: 16px;" spacing="20">
+        <HBox alignment="CENTER" style="-fx-padding: 5 0 5 0; -fx-font-size: 16px;" spacing="20">
             <fx:define>
                 <ToggleGroup fx:id="listToggler"/>
             </fx:define>
             <children>
                 <RadioButton text="Use ArrayList" fx:id="useArrayList" toggleGroup="$listToggler"/>
                 <RadioButton text="Use LinkedList" fx:id="useLinkedList" toggleGroup="$listToggler"/>
+                <Label text="Time Executed: "/>
+           		<Label fx:id="systemtimes" text= "0"/>
             </children>
-        </HBox>
-        	<HBox alignment = "CENTER" style="-fx-padding: 10 0 10 0; -fx-font-size: 16px;">
-        	<Label text="Time Executed: "/>
-            <Label fx:id="systemtimes" text= "0"/>
-		    </HBox>
+     	</HBox>
     </VBox>
     
 </VBox>
