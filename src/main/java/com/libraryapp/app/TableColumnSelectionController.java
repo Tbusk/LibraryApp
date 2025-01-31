@@ -5,45 +5,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-
-import java.util.*;
 
 public class TableColumnSelectionController {
 
     @FXML private ListView<CheckBox> checklist;
-    List<String> tableColumns = List.of(
-            "Current Title",
-        "Original Title",
-        "Author",
-        "Average Rating",
-        "Original Publication Year",
-        "ISBN13",
-        "ISBN",
-        "Small Cover Image",
-        "Book ID",
-        "Good Reads Book ID",
-        "Best Book ID",
-        "Work ID",
-        "Language Code",
-        "Total Number Of Books",
-        "Total Ratings",
-        "Total Work Ratings",
-        "Total Work Text Reviews",
-        "Total One Star Reviews",
-        "Total Two Star Reviews",
-        "Total Three Star Reviews",
-        "Total Four Star Reviews",
-        "Total Five Star Reviews"
-    );
-    Set<String> defaultColumns = new HashSet<>(List.of(
-            "Current Title",
-            "Author",
-            "Average Rating",
-            "Small Cover Image",
-            "Original Publication Year",
-            "ISBN13"));
-    HashMap<String, TableColumn<?, ?>> tableCol = new HashMap<>();
+
     private MainPageController mainPageController;
 
     protected void setMainPageController(MainPageController mainPageController) {
@@ -52,15 +18,15 @@ public class TableColumnSelectionController {
 
     public void initialize() {
 
-        for (String tableColumn : tableColumns) {
+        for (String tableColumn : TableConstants.COLUMNS) {
             CheckBox checkBox = new CheckBox(tableColumn);
             checklist.getItems().add(checkBox);
 
-            if(defaultColumns.contains(tableColumn)) {
+            if(TableConstants.DEFAULT_VISIBLE_COLUMNS.contains(tableColumn)) {
                 checkBox.setSelected(true);
             }
 
-            checkBox.setOnAction(new EventHandler<ActionEvent>() {
+            checkBox.setOnAction(new EventHandler<>() {
                 @Override
                 public void handle(ActionEvent event) {
                     switch(checkBox.getText()) {
