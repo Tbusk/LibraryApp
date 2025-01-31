@@ -2,8 +2,6 @@ package com.libraryapp.app;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -310,14 +308,7 @@ public class MainPageController implements Initializable {
         totalNumberOfBooks.setCellValueFactory(new PropertyValueFactory<>("totalNumberOfBooks"));
         totalWorkTextReviews.setCellValueFactory(new PropertyValueFactory<>("totalWorkTextReviews"));
 
-        totalFiveStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFiveStarRating()));
-        totalFourStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFourStarRating()));
-        totalThreeStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalThreeStarRating()));
-        totalTwoStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalTwoStarRating()));
-        totalOneStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalOneStarRating()));
-        totalWorkRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalWorkRatings()));
-        totalRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalRatings()));
-        averageRating.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getAverageRating()));
+        setupRatingDataForTable();
         workID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getWorkID()));
         bestBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBestBookID()));
         goodReadsBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getGoodreadsBookID()));
@@ -331,6 +322,17 @@ public class MainPageController implements Initializable {
         System.out.println("AFTER: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
 
         System.out.println("Table Loaded Successfully");
+    }
+
+    private void setupRatingDataForTable() {
+        averageRating.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getAverageRating()));
+        totalFiveStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFiveStarRating()));
+        totalFourStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFourStarRating()));
+        totalThreeStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalThreeStarRating()));
+        totalTwoStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalTwoStarRating()));
+        totalOneStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalOneStarRating()));
+        totalWorkRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalWorkRatings()));
+        totalRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalRatings()));
     }
 
     /**
