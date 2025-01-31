@@ -31,7 +31,6 @@ public class MainPageController implements Initializable {
     private int toIndex = ROWS_PER_PAGE - 1;
     private int fromIndex = 0;
     private long importtime = 0;
-    private File selectedFile;
     int timeTaken = 0;
     
     @FXML private Label headerText;
@@ -210,7 +209,7 @@ public class MainPageController implements Initializable {
      *
      */
     @FXML private void importBooksFromCsvFile() {
-        selectedFile = fileChooser.showOpenDialog(null);
+        File selectedFile = fileChooser.showOpenDialog(null);
         Timer timer = new Timer();
         if (selectedFile != null && booksTable.getItems() != null) {
         	//add system time
@@ -227,10 +226,7 @@ public class MainPageController implements Initializable {
             setCurrentPageNumber();
             setTotalNumberOfPages();
 
-            // Popup box telling user data is imported successfully.
-            messagePopup.setTitle("Data Imported Successfully");
-            messagePopup.setContentText("File " + selectedFile.getName() + "'s data has been added.");
-            messagePopup.showAndWait();
+            displayImportResponsePopup(selectedFile);
 
             booksTable.refresh();
             //print system time
@@ -245,7 +241,13 @@ public class MainPageController implements Initializable {
             messagePopup.showAndWait();
         }
     }
-    
+
+    private void displayImportResponsePopup(File file) {
+        messagePopup.setTitle("Data Imported Successfully");
+        messagePopup.setContentText("File " + file.getName() + "'s data has been added.");
+        messagePopup.showAndWait();
+    }
+
     @FXML private void displayPerformancePopup() {
     	messagePopup.setTitle("System Performance");
         messagePopup.setContentText("Time Executed: " + importtime + " ms");
