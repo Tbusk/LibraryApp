@@ -301,7 +301,6 @@ public class MainPageController implements Initializable {
     private void loadTable() {
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("authors"));
-        averageRating.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
         originalPublicationYear.setCellValueFactory(new PropertyValueFactory<>("originalPublicationYear"));
         smallSizedImage.setCellValueFactory(new PropertyValueFactory<>("smallSizedImageURL"));
 
@@ -309,15 +308,16 @@ public class MainPageController implements Initializable {
         oldTitle.setCellValueFactory(new PropertyValueFactory<>("originalTitle"));
         languageCode.setCellValueFactory(new PropertyValueFactory<>("languageCode"));
         totalNumberOfBooks.setCellValueFactory(new PropertyValueFactory<>("totalNumberOfBooks"));
-        totalRatings.setCellValueFactory(new PropertyValueFactory<>("totalRatings"));
-        totalWorkRatings.setCellValueFactory(new PropertyValueFactory<>("totalWorkRatings"));
         totalWorkTextReviews.setCellValueFactory(new PropertyValueFactory<>("totalWorkTextReviews"));
-        totalOneStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalOneStarRating"));
-        totalTwoStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalTwoStarRating"));
-        totalThreeStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalThreeStarRating"));
-        totalFourStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFourStarRating"));
-        totalFiveStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFiveStarRating"));
 
+        totalFiveStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFiveStarRating()));
+        totalFourStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalFourStarRating()));
+        totalThreeStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalThreeStarRating()));
+        totalTwoStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalTwoStarRating()));
+        totalOneStarReviews.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalOneStarRating()));
+        totalWorkRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalWorkRatings()));
+        totalRatings.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getTotalRatings()));
+        averageRating.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getBookRatings().getAverageRating()));
         workID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getWorkID()));
         bestBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBestBookID()));
         goodReadsBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getGoodreadsBookID()));

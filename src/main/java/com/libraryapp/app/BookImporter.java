@@ -86,11 +86,9 @@ public class BookImporter {
             }
 
             BookIdentification bookIdentification = new BookIdentification(bookID, goodreadsBookID, bestBookID, workID, ISBN, ISBN13);
-            
-            book = new Book(bookIdentification, totalNumberOfBooks, authors,
-                    originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings,
-                    totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating,
-                    totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
+            BookRatings bookRatings = new BookRatings(averageRating, totalRatings, totalWorkRatings, totalOneStarRating, totalTwoStarRating, totalThreeStarRating, totalFourStarRating, totalFiveStarRating);
+
+            book = new Book(bookIdentification, bookRatings, authors, originalPublicationYear, originalTitle, title, totalWorkTextReviews, languageCode, totalNumberOfBooks, standardSizedImageURL, smallSizedImageURL);
             books.add(book);
             
             
@@ -114,7 +112,7 @@ public class BookImporter {
                 case "Title" -> llElement = bookList.get(i).getTitle();
                 case "Author" -> llElement = bookList.get(i).getAuthors();
                 case "ISBN" -> llElement = bookList.get(i).getIdentification().getISBN();
-                case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
+                case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getBookRatings().getAverageRating());
                 case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
             }
 
@@ -163,7 +161,7 @@ public class BookImporter {
                     case "Title" -> llElement = bookList.get(i).getTitle();
                     case "Author" -> llElement = bookList.get(i).getAuthors();
                     case "ISBN" -> llElement = bookList.get(i).getIdentification().getISBN();
-                    case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
+                    case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getBookRatings().getAverageRating());
                     case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
                 }
 
