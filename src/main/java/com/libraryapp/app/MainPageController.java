@@ -477,14 +477,6 @@ public class MainPageController implements Initializable {
       this.endTime   = System.currentTimeMillis();  
     }
 
-    protected long getStartTime() {
-      return this.startTime;
-    }
-
-    protected long getEndTime() {
-      return this.endTime;
-    }
-
     protected long getTotalTime() {
       return this.endTime - this.startTime;
     }
