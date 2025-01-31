@@ -102,6 +102,7 @@ public class MainPageController implements Initializable {
         // Method to search list and return type
     	
         BookImporter bookImporter = new BookImporter();
+        Timer timer = new Timer();
 
         if(searchBox.getText().equals("")) {
 
@@ -110,23 +111,23 @@ public class MainPageController implements Initializable {
         } else if (useArrayList.isSelected()){
 
             ArrayList<Book> bookArrayList = new ArrayList<>(books);
-            start();
+            timer.start();
             timeTaken = bookImporter.searchBinary(bookArrayList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
-            end();
+            timer.end();
 
         } else if (useLinkedList.isSelected()) {
 
             LinkedList<Book> bookLinkedList = new LinkedList<>(books);
-            start();
+            timer.start();
             timeTaken = bookImporter.searchLinear(bookLinkedList, searchBox.getText(), (String) searchFilter.getSelectionModel().getSelectedItem());
-            end();
+            timer.end();
         }
 
         System.out.println("Selection: " + (String) searchFilter.getSelectionModel().getSelectedItem());
         System.out.println("Searched Text: " + searchBox.getText());
         System.out.println("Index: " + timeTaken);
 
-        long totalTime = getTotalTime();
+        long totalTime = timer.getElapsedTime();
         systemtimes.setVisible(true);
         systemtimes.setText(totalTime + "ms"); // change the text into time
         booksTable.getItems().clear();
@@ -219,9 +220,10 @@ public class MainPageController implements Initializable {
      */
     @FXML private void importBooksFromCsvFile() {
         selectedFile = fileChooser.showOpenDialog(null);
+        Timer timer = new Timer();
         if (selectedFile != null && booksTable.getItems() != null) {
         	//add system time
-        	start();
+        	timer.start();
             // Books Importing into ADT List format.  Can be converted to LinkedList or ArrayList.
             books = BookImporter.exportBooksToList(BookImporter.importBooksFromCSV(selectedFile.getAbsolutePath()));
             bookObservableList = FXCollections.observableArrayList(books);
@@ -241,8 +243,8 @@ public class MainPageController implements Initializable {
 
             booksTable.refresh();
             //print system time
-            end();
-            importtime = getTotalTime();
+            timer.end();
+            importtime = timer.getElapsedTime();
             System.out.println("Total time to import: " + importtime + " ms");
         } else {
 
@@ -389,20 +391,4 @@ public class MainPageController implements Initializable {
     protected void setTableColumnVisibility(TableColumn<?, ?> column, boolean visibility) {
         column.setVisible(visibility);
     }
-
-
-    //variables for system testing
-    protected void start(){
-      this.startTime = System.currentTimeMillis();
-    }
-
-    protected void end() {
-      this.endTime   = System.currentTimeMillis();  
-    }
-
-    protected long getTotalTime() {
-      return this.endTime - this.startTime;
-    }
-
-
 }
