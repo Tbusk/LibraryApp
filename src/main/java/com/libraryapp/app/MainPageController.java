@@ -17,10 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainPageController implements Initializable {
 
@@ -387,7 +384,6 @@ public class MainPageController implements Initializable {
 
     }
 
-    // Below Methods are for setting visibility  of components
     protected void setTableColumnVisibility(TableColumn<?, ?> column, boolean visibility) {
         column.setVisible(visibility);
     }

@@ -5,14 +5,45 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.scene.control.TableColumn;
+
+import java.util.*;
 
 public class TableColumnSelectionController {
 
     @FXML private ListView<CheckBox> checklist;
-    List<String> tableColumns = new ArrayList<>();
-    List<String> defaultColumns = new ArrayList<>();
+    List<String> tableColumns = List.of(
+            "Current Title",
+        "Original Title",
+        "Author",
+        "Average Rating",
+        "Original Publication Year",
+        "ISBN13",
+        "ISBN",
+        "Small Cover Image",
+        "Book ID",
+        "Good Reads Book ID",
+        "Best Book ID",
+        "Work ID",
+        "Language Code",
+        "Total Number Of Books",
+        "Total Ratings",
+        "Total Work Ratings",
+        "Total Work Text Reviews",
+        "Total One Star Reviews",
+        "Total Two Star Reviews",
+        "Total Three Star Reviews",
+        "Total Four Star Reviews",
+        "Total Five Star Reviews"
+    );
+    Set<String> defaultColumns = new HashSet<>(List.of(
+            "Current Title",
+            "Author",
+            "Average Rating",
+            "Small Cover Image",
+            "Original Publication Year",
+            "ISBN13"));
+    HashMap<String, TableColumn<?, ?>> tableCol = new HashMap<>();
     private MainPageController mainPageController;
 
     protected void setMainPageController(MainPageController mainPageController) {
@@ -20,18 +51,13 @@ public class TableColumnSelectionController {
     }
 
     public void initialize() {
-        getCurrentTableColumns();
+
         for (String tableColumn : tableColumns) {
             CheckBox checkBox = new CheckBox(tableColumn);
             checklist.getItems().add(checkBox);
 
-            switch(tableColumn) {
-                case "Current Title",
-                        "Author",
-                        "Average Rating",
-                        "Small Cover Image",
-                        "Original Publication Year",
-                        "ISBN13"  -> checkBox.setSelected(true);
+            if(defaultColumns.contains(tableColumn)) {
+                checkBox.setSelected(true);
             }
 
             checkBox.setOnAction(new EventHandler<ActionEvent>() {
@@ -66,32 +92,4 @@ public class TableColumnSelectionController {
 
         }
     }
-
-    public void getCurrentTableColumns() {
-        tableColumns.clear();
-        tableColumns.add("Current Title");
-        tableColumns.add("Original Title");
-        tableColumns.add("Author");
-        tableColumns.add("Average Rating");
-        tableColumns.add("Original Publication Year");
-        tableColumns.add("ISBN13");
-        tableColumns.add("ISBN");
-        tableColumns.add("Small Cover Image");
-        tableColumns.add("Book ID");
-        tableColumns.add("Good Reads Book ID");
-        tableColumns.add("Best Book ID");
-        tableColumns.add("Work ID");
-        tableColumns.add("Language Code");
-        tableColumns.add("Total Number Of Books");
-        tableColumns.add("Total Ratings");
-        tableColumns.add("Total Work Ratings");
-        tableColumns.add("Total Work Text Reviews");
-        tableColumns.add("Total One Star Reviews");
-        tableColumns.add("Total Two Star Reviews");
-        tableColumns.add("Total Three Star Reviews");
-        tableColumns.add("Total Four Star Reviews");
-        tableColumns.add("Total Five Star Reviews");
-    }
-
-
 }
