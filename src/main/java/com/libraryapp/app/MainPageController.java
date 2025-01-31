@@ -1,5 +1,7 @@
 package com.libraryapp.app;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -301,16 +303,10 @@ public class MainPageController implements Initializable {
         author.setCellValueFactory(new PropertyValueFactory<>("authors"));
         averageRating.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
         originalPublicationYear.setCellValueFactory(new PropertyValueFactory<>("originalPublicationYear"));
-        ISBN13.setCellValueFactory(new PropertyValueFactory<>("ISBN13"));
         smallSizedImage.setCellValueFactory(new PropertyValueFactory<>("smallSizedImageURL"));
 
         // Loads by default, but the following are hidden.
-        ISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         oldTitle.setCellValueFactory(new PropertyValueFactory<>("originalTitle"));
-        bookID.setCellValueFactory(new PropertyValueFactory<>("bookID"));
-        goodReadsBookID.setCellValueFactory(new PropertyValueFactory<>("goodreadsBookID"));
-        bestBookID.setCellValueFactory(new PropertyValueFactory<>("bestBookID"));
-        workID.setCellValueFactory(new PropertyValueFactory<>("workID"));
         languageCode.setCellValueFactory(new PropertyValueFactory<>("languageCode"));
         totalNumberOfBooks.setCellValueFactory(new PropertyValueFactory<>("totalNumberOfBooks"));
         totalRatings.setCellValueFactory(new PropertyValueFactory<>("totalRatings"));
@@ -321,6 +317,13 @@ public class MainPageController implements Initializable {
         totalThreeStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalThreeStarRating"));
         totalFourStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFourStarRating"));
         totalFiveStarReviews.setCellValueFactory(new PropertyValueFactory<>("totalFiveStarRating"));
+
+        workID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getWorkID()));
+        bestBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBestBookID()));
+        goodReadsBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getGoodreadsBookID()));
+        bookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBookID()));
+        ISBN13.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN13()));
+        ISBN.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN()));
 
         booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, toIndex + 1)));
         convertImageURLToImage();

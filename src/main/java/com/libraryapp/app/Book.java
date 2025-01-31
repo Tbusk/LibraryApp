@@ -1,12 +1,8 @@
 package com.libraryapp.app;
 
 public class Book {
-    private int bookID;
-    private int goodreadsBookID;
-    private int bestBookID;
-    private int workID;
-    private String ISBN;
-    private String ISBN13;
+
+    private BookIdentification bookIdentification;
     private String authors;
     private short originalPublicationYear;
     private String originalTitle;
@@ -28,18 +24,13 @@ public class Book {
     public Book(){
         this.title = "N/A";
         this.authors = "N/A";
-        this.ISBN13 = "00000";
         this.originalPublicationYear = 2023;
         this.smallSizedImageURL = "https://s.gr-assets.com/assets/nophoto/book/50x75-a91bf249278a81aabab721ef782c4a74.png";
     }
 
-    public Book(int bookID, int goodreadsBookID, int bestBookID, int workID, int totalNumberOfBooks, String ISBN, String ISBN13, String authors, short originalPublicationYear, String originalTitle, String title, String languageCode, float averageRating, int totalRatings, int totalWorkRatings, int totalWorkTextReviews, int totalOneStarRating, int totalTwoStarRating, int totalThreeStarRating, int totalFourStarRating, int totalFiveStarRating, String standardSizedImageURL, String smallSizedImageURL) {
-        this.bookID = bookID;
-        this.goodreadsBookID = goodreadsBookID;
-        this.bestBookID = bestBookID;
-        this.workID = workID;
-        this.ISBN = ISBN;
-        this.ISBN13 = ISBN13;
+    public Book(BookIdentification bookIdentification, int totalNumberOfBooks, String authors, short originalPublicationYear, String originalTitle, String title, String languageCode, float averageRating, int totalRatings, int totalWorkRatings, int totalWorkTextReviews, int totalOneStarRating, int totalTwoStarRating, int totalThreeStarRating, int totalFourStarRating, int totalFiveStarRating, String standardSizedImageURL, String smallSizedImageURL) {
+
+        this.bookIdentification = bookIdentification;
         this.authors = authors;
         this.originalPublicationYear = originalPublicationYear;
         this.originalTitle = originalTitle;
@@ -59,28 +50,8 @@ public class Book {
         this.smallSizedImageURL = smallSizedImageURL;
     }
 
-    public int getBookID() {
-        return bookID;
-    }
-
-    public int getGoodreadsBookID() {
-        return goodreadsBookID;
-    }
-
-    public int getBestBookID() {
-        return bestBookID;
-    }
-
-    public int getWorkID() {
-        return workID;
-    }
-
-    public String getISBN() {
-        return ISBN;
-    }
-
-    public String getISBN13() {
-        return ISBN13;
+    public BookIdentification getIdentification() {
+        return this.bookIdentification;
     }
 
     public String getAuthors() {

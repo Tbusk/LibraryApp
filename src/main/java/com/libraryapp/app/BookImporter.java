@@ -1,6 +1,5 @@
 package com.libraryapp.app;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -85,8 +84,10 @@ public class BookImporter {
             if (title.startsWith("\"")) {
                 title = title.substring(1, title.length() - 1);
             }
+
+            BookIdentification bookIdentification = new BookIdentification(bookID, goodreadsBookID, bestBookID, workID, ISBN, ISBN13);
             
-            book = new Book(bookID, goodreadsBookID, bestBookID, workID, totalNumberOfBooks, ISBN, ISBN13, authors,
+            book = new Book(bookIdentification, totalNumberOfBooks, authors,
                     originalPublicationYear, originalTitle, title, languageCode, averageRating, totalRatings,
                     totalWorkRatings, totalWorkTextReviews, totalOneStarRating, totalTwoStarRating, totalThreeStarRating,
                     totalFourStarRating, totalFiveStarRating, standardSizedImageURL, smallSizedImageURL);
@@ -108,11 +109,11 @@ public class BookImporter {
             // Eztracting each element in
             // the Array List
             switch (type) {
-                case "ISBN13" -> llElement = bookList.get(i).getISBN13();
-                case "Book ID" -> llElement = String.valueOf(bookList.get(i).getBookID());
+                case "ISBN13" -> llElement = bookList.get(i).getIdentification().getISBN13();
+                case "Book ID" -> llElement = String.valueOf(bookList.get(i).getIdentification().getBookID());
                 case "Title" -> llElement = bookList.get(i).getTitle();
                 case "Author" -> llElement = bookList.get(i).getAuthors();
-                case "ISBN" -> llElement = bookList.get(i).getISBN();
+                case "ISBN" -> llElement = bookList.get(i).getIdentification().getISBN();
                 case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
                 case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
             }
@@ -157,11 +158,11 @@ public class BookImporter {
                 // Eztracting each element in
                 // the Linked List
                 switch (type) {
-                    case "ISBN13" -> llElement = bookList.get(i).getISBN13();
-                    case "Book ID" -> llElement = String.valueOf(bookList.get(i).getBookID());
+                    case "ISBN13" -> llElement = bookList.get(i).getIdentification().getISBN13();
+                    case "Book ID" -> llElement = String.valueOf(bookList.get(i).getIdentification().getBookID());
                     case "Title" -> llElement = bookList.get(i).getTitle();
                     case "Author" -> llElement = bookList.get(i).getAuthors();
-                    case "ISBN" -> llElement = bookList.get(i).getISBN();
+                    case "ISBN" -> llElement = bookList.get(i).getIdentification().getISBN();
                     case "Average Rating" -> llElement = String.valueOf(bookList.get(i).getAverageRating());
                     case "Original Publication Year" -> llElement = String.valueOf(bookList.get(i).getOriginalPublicationYear());
                 }
