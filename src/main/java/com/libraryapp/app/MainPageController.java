@@ -297,6 +297,10 @@ public class MainPageController implements Initializable {
      * Sets up the table associated values.  The adding of the columns to the table is done with FXML.
      */
     private void loadTable() {
+
+        setupRatingDataForTable();
+        setupBookIdDataForTable();
+
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("authors"));
         originalPublicationYear.setCellValueFactory(new PropertyValueFactory<>("originalPublicationYear"));
@@ -308,20 +312,21 @@ public class MainPageController implements Initializable {
         totalNumberOfBooks.setCellValueFactory(new PropertyValueFactory<>("totalNumberOfBooks"));
         totalWorkTextReviews.setCellValueFactory(new PropertyValueFactory<>("totalWorkTextReviews"));
 
-        setupRatingDataForTable();
-        workID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getWorkID()));
-        bestBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBestBookID()));
-        goodReadsBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getGoodreadsBookID()));
-        bookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBookID()));
-        ISBN13.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN13()));
-        ISBN.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN()));
-
         booksTable.setItems(FXCollections.observableArrayList(bookObservableList.subList(fromIndex, toIndex + 1)));
         convertImageURLToImage();
 
         System.out.println("AFTER: Page Index: " + pageIndex + ", fromIndex: " + fromIndex + ", toIndex: " + toIndex);
 
         System.out.println("Table Loaded Successfully");
+    }
+
+    private void setupBookIdDataForTable() {
+        workID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getWorkID()));
+        bestBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBestBookID()));
+        goodReadsBookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getGoodreadsBookID()));
+        bookID.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getIdentification().getBookID()));
+        ISBN13.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN13()));
+        ISBN.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getIdentification().getISBN()));
     }
 
     private void setupRatingDataForTable() {
