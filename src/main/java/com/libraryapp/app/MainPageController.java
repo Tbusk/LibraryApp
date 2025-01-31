@@ -34,12 +34,6 @@ public class MainPageController implements Initializable {
     private File selectedFile;
     int timeTaken = 0;
     
-    
-
-    //variables for system performance 
-    private long startTime = 0;
-    private long endTime   = 0;
-    
     @FXML private Label headerText;
     @FXML private TableView<Book> booksTable;
     @FXML protected TableColumn<Book, String> title;
