@@ -38,7 +38,7 @@ public class MainPageController implements Initializable {
     int timeTaken = 0;
     
     
-    
+
     //variables for system performance 
     private long startTime = 0;
     private long endTime   = 0;
@@ -253,7 +253,7 @@ public class MainPageController implements Initializable {
         }
     }
     
-    @FXML private void importPerform() {
+    @FXML private void displayPerformancePopup() {
     	messagePopup.setTitle("System Performance");
         messagePopup.setContentText("Time Executed: " + importtime + " ms");
         messagePopup.showAndWait();

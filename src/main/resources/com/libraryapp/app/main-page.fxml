@@ -91,7 +91,7 @@
         <Button fx:id="importFromFileButton" text="Import from CSV" onAction="#importFromFile"/>
         <Button fx:id="selectTableColumns" text="Table Display Properties" onAction="#openChecklistWindow"/>
         <Button fx:id="nextPageButton" text="Next Page" onAction="#nextPage"/>
-        <Button fx:id="performance" text="Performance" onAction="#importPerform"/>
+        <Button fx:id="performance" text="Performance" onAction="#displayPerformancePopup"/>
 
     </HBox>
         <HBox alignment="CENTER" style="-fx-padding: 5 0 5 0; -fx-font-size: 16px;">
