@@ -217,7 +217,7 @@ public class MainPageController implements Initializable {
     /**
      *
      */
-    @FXML private void importFromFile() {
+    @FXML private void importBooksFromCsvFile() {
         selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null && booksTable.getItems() != null) {
         	//add system time
