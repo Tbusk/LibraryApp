@@ -38,28 +38,28 @@ public class TableColumnSelectionController {
                 @Override
                 public void handle(ActionEvent event) {
                     switch(checkBox.getText()) {
-                        case "Current Title" -> mainPageController.setCurrentTitleColumnVisibility(checkBox.isSelected());
-                        case "Author" -> mainPageController.setAuthorColumnVisibility(checkBox.isSelected());
-                        case "Average Rating" -> mainPageController.setAverageRatingColumnVisibility(checkBox.isSelected());
-                        case "Small Cover Image" -> mainPageController.setSmallSizedImageColumnVisibility(checkBox.isSelected());
-                        case "Original Publication Year" -> mainPageController.setOriginalPublicationYearColumnVisibility(checkBox.isSelected());
-                        case "ISBN13" -> mainPageController.setISBN13ColumnVisibility(checkBox.isSelected());
-                        case "ISBN" -> mainPageController.setISBNColumnVisibility(checkBox.isSelected());
-                        case "Original Title" -> mainPageController.setOldTitleColumnVisibility(checkBox.isSelected());
-                        case "Book ID" -> mainPageController.setBookIDColumnVisibility(checkBox.isSelected());
-                        case "Good Reads Book ID" -> mainPageController.setGoodReadsBookIDColumnVisibility(checkBox.isSelected());
-                        case "Best Book ID" -> mainPageController.setBestBookIDColumnVisibility(checkBox.isSelected());
-                        case "Work ID" -> mainPageController.setWorkIDColumnVisibility(checkBox.isSelected());
-                        case "Language Code" -> mainPageController.setLanguageCodeColumnVisibility(checkBox.isSelected());
-                        case "Total Number Of Books" -> mainPageController.setBookTotalColumnVisibility(checkBox.isSelected());
-                        case "Total Ratings" -> mainPageController.setTotalRatingsColumnVisibility(checkBox.isSelected());
-                        case "Total Work Ratings" -> mainPageController.setTotalWorkRatingsColumnVisibility(checkBox.isSelected());
-                        case "Total Work Text Reviews" -> mainPageController.setTotalWorkTextReviewsColumnVisibility(checkBox.isSelected());
-                        case "Total One Star Reviews" -> mainPageController.setTotalOneStarReviewsColumnVisibility(checkBox.isSelected());
-                        case "Total Two Star Reviews" -> mainPageController.setTotalTwoStarReviewsColumnVisibility(checkBox.isSelected());
-                        case "Total Three Star Reviews" -> mainPageController.setTotalThreeStarReviewsColumnVisibility(checkBox.isSelected());
-                        case "Total Four Star Reviews" -> mainPageController.setTotalFourStarReviewsColumnVisibility(checkBox.isSelected());
-                        case "Total Five Star Reviews" -> mainPageController.setTotalFiveStarReviewsColumnVisibility(checkBox.isSelected());
+                        case "Current Title" -> mainPageController.setTableColumnVisibility(mainPageController.title, checkBox.isSelected());
+                        case "Author" -> mainPageController.setTableColumnVisibility(mainPageController.author, checkBox.isSelected());
+                        case "Average Rating" -> mainPageController.setTableColumnVisibility(mainPageController.averageRating, checkBox.isSelected());
+                        case "Small Cover Image" -> mainPageController.setTableColumnVisibility(mainPageController.smallSizedImage, checkBox.isSelected());
+                        case "Original Publication Year" -> mainPageController.setTableColumnVisibility(mainPageController.originalPublicationYear, checkBox.isSelected());
+                        case "ISBN13" -> mainPageController.setTableColumnVisibility(mainPageController.ISBN13, checkBox.isSelected());
+                        case "ISBN" -> mainPageController.setTableColumnVisibility(mainPageController.ISBN, checkBox.isSelected());
+                        case "Original Title" -> mainPageController.setTableColumnVisibility(mainPageController.oldTitle, checkBox.isSelected());
+                        case "Book ID" -> mainPageController.setTableColumnVisibility(mainPageController.bookID, checkBox.isSelected());
+                        case "Good Reads Book ID" -> mainPageController.setTableColumnVisibility(mainPageController.goodReadsBookID, checkBox.isSelected());
+                        case "Best Book ID" -> mainPageController.setTableColumnVisibility(mainPageController.bestBookID, checkBox.isSelected());
+                        case "Work ID" -> mainPageController.setTableColumnVisibility(mainPageController.workID, checkBox.isSelected());
+                        case "Language Code" -> mainPageController.setTableColumnVisibility(mainPageController.languageCode, checkBox.isSelected());
+                        case "Total Number Of Books" -> mainPageController.setTableColumnVisibility(mainPageController.totalNumberOfBooks, checkBox.isSelected());
+                        case "Total Ratings" -> mainPageController.setTableColumnVisibility(mainPageController.totalRatings, checkBox.isSelected());
+                        case "Total Work Ratings" -> mainPageController.setTableColumnVisibility(mainPageController.totalWorkRatings, checkBox.isSelected());
+                        case "Total Work Text Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalWorkTextReviews, checkBox.isSelected());
+                        case "Total One Star Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalOneStarReviews, checkBox.isSelected());
+                        case "Total Two Star Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalTwoStarReviews, checkBox.isSelected());
+                        case "Total Three Star Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalThreeStarReviews, checkBox.isSelected());
+                        case "Total Four Star Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalFourStarReviews, checkBox.isSelected());
+                        case "Total Five Star Reviews" -> mainPageController.setTableColumnVisibility(mainPageController.totalFiveStarReviews, checkBox.isSelected());
                     }
                 }
             });

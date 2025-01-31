@@ -45,29 +45,29 @@ public class MainPageController implements Initializable {
     
     @FXML private Label headerText;
     @FXML private TableView<Book> booksTable;
-    @FXML private TableColumn<Book, String> title;
-    @FXML private TableColumn<Book, String> author;
-    @FXML private TableColumn<Book, Float> averageRating;
-    @FXML private TableColumn<Book, Short> originalPublicationYear;
-    @FXML private TableColumn<Book, String> ISBN13;
-    @FXML private TableColumn<Book, String> smallSizedImage;
+    @FXML protected TableColumn<Book, String> title;
+    @FXML protected TableColumn<Book, String> author;
+    @FXML protected TableColumn<Book, Float> averageRating;
+    @FXML protected TableColumn<Book, Short> originalPublicationYear;
+    @FXML protected TableColumn<Book, String> ISBN13;
+    @FXML protected TableColumn<Book, String> smallSizedImage;
     // hidden columns by default
-    @FXML private TableColumn<Book, String> ISBN;
-    @FXML private TableColumn<Book, String> oldTitle;
-    @FXML private TableColumn<Book, Integer> bookID;
-    @FXML private TableColumn<Book, Integer> goodReadsBookID;
-    @FXML private TableColumn<Book, Integer> bestBookID;
-    @FXML private TableColumn<Book, Integer> workID;
-    @FXML private TableColumn<Book, String> languageCode;
-    @FXML private TableColumn<Book, Integer> totalNumberOfBooks;
-    @FXML private TableColumn<Book, Integer> totalRatings;
-    @FXML private TableColumn<Book, Integer> totalWorkRatings;
-    @FXML private TableColumn<Book, Integer> totalWorkTextReviews;
-    @FXML private TableColumn<Book, Integer> totalOneStarReviews;
-    @FXML private TableColumn<Book, Integer> totalTwoStarReviews;
-    @FXML private TableColumn<Book, Integer> totalThreeStarReviews;
-    @FXML private TableColumn<Book, Integer> totalFourStarReviews;
-    @FXML private TableColumn<Book, Integer> totalFiveStarReviews;
+    @FXML protected TableColumn<Book, String> ISBN;
+    @FXML protected TableColumn<Book, String> oldTitle;
+    @FXML protected TableColumn<Book, Integer> bookID;
+    @FXML protected TableColumn<Book, Integer> goodReadsBookID;
+    @FXML protected TableColumn<Book, Integer> bestBookID;
+    @FXML protected TableColumn<Book, Integer> workID;
+    @FXML protected TableColumn<Book, String> languageCode;
+    @FXML protected TableColumn<Book, Integer> totalNumberOfBooks;
+    @FXML protected TableColumn<Book, Integer> totalRatings;
+    @FXML protected TableColumn<Book, Integer> totalWorkRatings;
+    @FXML protected TableColumn<Book, Integer> totalWorkTextReviews;
+    @FXML protected TableColumn<Book, Integer> totalOneStarReviews;
+    @FXML protected TableColumn<Book, Integer> totalTwoStarReviews;
+    @FXML protected TableColumn<Book, Integer> totalThreeStarReviews;
+    @FXML protected TableColumn<Book, Integer> totalFourStarReviews;
+    @FXML protected TableColumn<Book, Integer> totalFiveStarReviews;
     @FXML private ToggleGroup listToggler;
     @FXML RadioButton useArrayList;
     @FXML RadioButton useLinkedList;
@@ -386,87 +386,10 @@ public class MainPageController implements Initializable {
     }
 
     // Below Methods are for setting visibility  of components
-    protected void setSmallSizedImageColumnVisibility(boolean visible) {
-        smallSizedImage.setVisible(visible);
-    }
-    protected void setOriginalPublicationYearColumnVisibility(boolean visible) {
-        originalPublicationYear.setVisible(visible);
-    }
-    protected void setAverageRatingColumnVisibility(boolean visible) {
-        averageRating.setVisible(visible);
-    }
-    protected void setAuthorColumnVisibility(boolean visible) {
-        author.setVisible(visible);
-    }
-    protected void setCurrentTitleColumnVisibility(boolean visible) {
-        title.setVisible(visible);
-    }
-    protected void setISBN13ColumnVisibility(boolean visible) {
-        ISBN13.setVisible(visible);
-    }
-    protected void setISBNColumnVisibility(boolean visible) {
-        ISBN.setVisible(visible);
+    protected void setTableColumnVisibility(TableColumn<?, ?> column, boolean visibility) {
+        column.setVisible(visibility);
     }
 
-    protected void setOldTitleColumnVisibility(boolean visible) {
-        oldTitle.setVisible(visible);
-    }
-
-    protected void setBookIDColumnVisibility(boolean visible) {
-        bookID.setVisible(visible);
-    }
-
-    protected void setGoodReadsBookIDColumnVisibility(boolean visible) {
-        goodReadsBookID.setVisible(visible);
-    }
-
-    protected void setBestBookIDColumnVisibility(boolean visible) {
-        bestBookID.setVisible(visible);
-    }
-
-    protected void setWorkIDColumnVisibility(boolean visible) {
-        workID.setVisible(visible);
-    }
-
-    protected void setLanguageCodeColumnVisibility(boolean visible) {
-        languageCode.setVisible(visible);
-    }
-
-    protected void setBookTotalColumnVisibility(boolean visible) {
-        totalNumberOfBooks.setVisible(visible);
-    }
-
-    protected void setTotalRatingsColumnVisibility(boolean visible) {
-        totalRatings.setVisible(visible);
-    }
-
-    protected void setTotalWorkRatingsColumnVisibility(boolean visible) {
-        totalWorkRatings.setVisible(visible);
-    }
-
-    protected void setTotalWorkTextReviewsColumnVisibility(boolean visible) {
-        totalWorkTextReviews.setVisible(visible);
-    }
-
-    protected void setTotalOneStarReviewsColumnVisibility(boolean visible) {
-        totalOneStarReviews.setVisible(visible);
-    }
-
-    protected void setTotalTwoStarReviewsColumnVisibility(boolean visible) {
-        totalTwoStarReviews.setVisible(visible);
-    }
-
-    protected void setTotalThreeStarReviewsColumnVisibility(boolean visible) {
-        totalThreeStarReviews.setVisible(visible);
-    }
-
-    protected void setTotalFourStarReviewsColumnVisibility(boolean visible) {
-        totalFourStarReviews.setVisible(visible);
-    }
-
-    protected void setTotalFiveStarReviewsColumnVisibility(boolean visible) {
-        totalFiveStarReviews.setVisible(visible);
-    }
 
     //variables for system testing
     protected void start(){
